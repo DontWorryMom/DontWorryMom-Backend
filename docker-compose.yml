@@ -12,7 +12,11 @@ services:
     restart: always
     ports:
       - "5433:5432"
-  spring-service:
+  spring-backend:
     build: ./spring-backend/
     ports: 
       - "8080:8080"
+  react-frontend:
+    build: ./react-frontend/
+    ports:
+      - "3000:3000"
