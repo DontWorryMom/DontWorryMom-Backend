@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - db-volume:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -16,7 +16,30 @@ services:
     build: ./spring-backend/
     ports: 
       - "8080:8080"
+    depends_on:
+      - "db"
   react-frontend:
     build: ./react-frontend/
     ports:
       - "3000:3000"
+    depends_on:
+      - "db"
+      - "spring-backend"
+  liquibase:
+    image: liquibase/liquibase
+    container_name: liquibase
+    depends_on:
+      - "db"
+    volumes:
+      - ./liquibase/changelog.xml:/liquibase/changelog.xml
+      - ./liquibase/sql-files/:/liquibase/sql-files/
+    command: [
+        '--url=jdbc:postgresql://db:5432/postgres',
+        '--changelog-file=changelog.xml',
+        '--username=postgres',
+        '--password=postgres',
+        'update'
+        ]
+
+volumes:
+  db-volume:

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+
+<databaseChangeLog
+   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro 
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+      
+    <changeSet id="1" author="willsunnn">
+    <sql>
+    create table Users (
+        user_id serial,
+        username text NOT NULL,
+        PRIMARY KEY (user_id)
+    );
+
+    create table Device (
+        device_id serial,
+        user_id integer,
+        primary key (device_id),
+        foreign key (user_id) references Users(user_id)
+    );
+
+    create table Notification (
+        notification_id serial,
+        primary key (notification_id)
+    );
+
+    create table EmailNotification (
+        notification_id integer,
+        email text not null,
+        primary key (notification_id),
+        foreign key (notification_id) references Notification(notification_id) on delete cascade
+    );
+
+    create table TextNotification (
+        notification_id integer,
+        phone_number text not null,
+        primary key (notification_id),
+        foreign key (notification_id) references Notification(notification_id) on delete cascade
+    );
+
+    create table PastLocations (
+        device_id integer,
+        location_id serial,
+        location_time timestamp not null,
+        location_lat float not null,
+        location_lon float not null,
+        primary key (device_id, location_id),
+        foreign key (device_id) references Device(device_id) on delete cascade
+    );
+
+    create table CrashDetected (
+        device_id integer,
+        crash_id serial,
+        crash_time timestamp not null,
+        crash_lat float not null,
+        crash_lon float not null,
+        primary key (device_id, crash_id),
+        foreign key (device_id) references Device(device_id) on delete cascade
+    );
+
+    create type Status as ENUM('Pending', 'Sent', 'Failed');
+
+    create table CrashDetectedNotifications (
+        device_id integer,
+        crash_id integer,
+        notification_id integer,
+        notification_status Status not null,
+        primary key (device_id, crash_id, notification_id),
+        foreign key (device_id, crash_id) references CrashDetected(device_id, crash_id),
+        foreign key (notification_id) references Notification 
+    );
+    </sql>
+    </changeSet> 
+
+</databaseChangeLog>
