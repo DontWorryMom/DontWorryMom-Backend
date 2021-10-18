@@ -1,8 +1,9 @@
 System Overview: \
-![system-overview](readme-resources/system-overview/system-overview.png)
+![system-overview](documentation/system-overview/system-overview.png)
 
 Backend Architecture: \
-![backend-architecture](readme-resources/backend-architecture/backend-architecture.drawio.png)
+![backend-architecture](documentation/backend-architecture/backend-architecture.drawio.png)
 
-SQL DB Design: \
-TBD
+Postman: \
+Import postman collection and environment located at documentation/postman \
+Collection can be published to view endpoints easily, as well as make test requests
