@@ -27,4 +27,10 @@ public class User {
 
 	@Column(name="username")
 	String username;
+
+	public void assign(User pUser) {
+		// this method copies variables from pUser into this
+		// this is used to update the user in the repository
+		this.username = pUser.username;
+	}
 }

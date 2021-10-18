@@ -23,7 +23,7 @@ public class UserDAO {
 		return userRepository.findAll();
 	}
 
-	public User findUserById(int userId) {
+	public User getUserById(int userId) {
 		Optional<User> user = userRepository.findById(userId);
 		if(user.isPresent()) {
 			return user.get();
@@ -38,5 +38,17 @@ public class UserDAO {
 
 	public void deleteUser(int userId) {
 		userRepository.deleteById(userId);
+	}
+
+	public User updateUser(User pUser) {
+		Optional<User> userOptional = userRepository.findById(pUser.getUserId());
+		if(userOptional.isPresent()) {
+			User user = userOptional.get();
+			user.assign(pUser);
+			userRepository.save(user);
+			return user;
+		} else {
+			return null;
+		}
 	}
 }
