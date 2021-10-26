@@ -31,8 +31,9 @@ public class LocationController {
 	 *		CREATE ENDPOINTS
 	 */
 
-	@PostMapping("/")
-	public ResponseEntity<ResponseWrapper<Location>> createDevice(@RequestBody Location location) {
+	@PostMapping("/deviceId/{deviceId}")
+	public ResponseEntity<ResponseWrapper<Location>> createDevice(@RequestBody Location location, @PathVariable("deviceId") long deviceId) {
+		location.setDeviceId(deviceId);
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(locationDAO.createLocation(location)), 
 			HttpStatus.CREATED);

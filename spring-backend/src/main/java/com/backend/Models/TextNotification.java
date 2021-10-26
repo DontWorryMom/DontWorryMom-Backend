@@ -7,6 +7,8 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import lombok.Data;
 
@@ -25,6 +27,24 @@ public class TextNotification extends Notification {
     @Override
     public NotificationType getType() {
         return NOTIFICATION_TYPE;
+    }
+
+    public static TextNotification parse(JsonNode node) throws JsonProcessingException {
+        long notificationId = 0;            // default value to be overwritten
+        if(node.has("notificationId")) {
+            notificationId = node.get("notificationId").asLong();
+        }
+        long userId = 0;                    // default value to be overwritten
+        if(node.has("userId")) {
+            userId = node.get("userId").asLong();
+        }
+        String phoneNumber = node.get("phoneNumber").asText();
+
+        TextNotification notification = new TextNotification();
+        notification.setNotificationId(notificationId);
+        notification.setUserId(userId);
+        notification.setPhoneNumber(phoneNumber);
+        return notification;
     }
 
 }

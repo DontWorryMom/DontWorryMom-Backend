@@ -24,6 +24,10 @@ public class NotificationDAO {
         return notificationRepository.findAll();
     }
 
+    public Notification createNotification(Notification notif) {
+        return notificationRepository.save(notif);
+    }
+
     public Notification getNotificationById(long notificationId) {
         Optional<Notification> notif = notificationRepository.findById(notificationId);
         if(notif.isPresent()) {
