@@ -13,6 +13,7 @@ import './App.css';
 
 // pages created
 import HomePage from './pages/HomePage';
+import UserSelectionPage from './pages/UserSelectionPage';
 import DeviceSelectionPage from './pages/DeviceSelectionPage';
 
 function App() {
@@ -26,12 +27,13 @@ function App() {
       <div>
         <Link to='/'>Home</Link>
         <br/>
-        <Link to='/devices'>Device List</Link>
+        <Link to='/users'>User List</Link>
       </div>
       
       <Switch>
         <Route exact path='/' component={HomePage}></Route>
-        <Route exact path='/devices' component={DeviceSelectionPage}></Route>
+        <Route exact path='/users' component={UserSelectionPage}></Route>
+        <Route exact path='/userID/devices' component={DeviceSelectionPage}></Route>
       </Switch>
       
     </div>
