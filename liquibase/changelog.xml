@@ -27,7 +27,9 @@
 
     create table notification (
         notification_id bigserial,
-        primary key (notification_id)
+        user_id bigint,
+        primary key (notification_id),
+        foreign key (user_id) references users(user_id)
     );
 
     create table email_notification (
@@ -37,7 +39,7 @@
         foreign key (notification_id) references notification(notification_id) on delete cascade
     );
 
-    create table test_notification (
+    create table text_notification (
         notification_id bigint,
         phone_number text not null,
         primary key (notification_id),
