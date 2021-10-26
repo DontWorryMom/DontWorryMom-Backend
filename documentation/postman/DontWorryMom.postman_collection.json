@@ -187,7 +187,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"userId\": 2\r\n}",
+							"raw": "{\r\n\"userId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -249,6 +249,192 @@
 								"users",
 								"userId",
 								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get All Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/notifications/",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"notifications",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notification by Notification Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/notifications/userId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"notifications",
+								"userId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notifications by User Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/notifications/",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"notifications",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Text Notification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\":\"TEXT_NOTIFICATION\",\r\n    \"phoneNumber\": \"408-708-8140\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/notifications/userId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"notifications",
+								"userId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Email Notification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\":\"EMAIL_NOTIFICATION\",\r\n    \"email\": \"wcsun@uci.edu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/notifications/userId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"notifications",
+								"userId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Locations",
+			"item": [
+				{
+					"name": "Get All Locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/locations/",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"locations",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Locations by Device Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/locations/deviceId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"locations",
+								"deviceId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"locationTime\": \"2021-10-26T20:00:00Z\",\r\n    \"locationLat\": 33.669445,\r\n    \"locationLon\": 119.4179\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/locations/deviceId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"locations",
+								"deviceId",
+								"1"
 							]
 						}
 					},

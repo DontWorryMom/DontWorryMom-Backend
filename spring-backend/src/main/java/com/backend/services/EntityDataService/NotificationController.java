@@ -35,6 +35,22 @@ public class NotificationController {
         );
     }
     
+    @GetMapping("/notificationId/{notificationId}")
+    public ResponseEntity<ResponseWrapper<Notification>> getNotification(@PathVariable("notificationId") long notificationId) {
+        return new ResponseEntity<>(
+            ResponseWrapper.successResponse(notificationDAO.getNotificationById(notificationId)),
+            HttpStatus.OK
+        );
+    }
+    
+    @GetMapping("/userId/{userId}")
+    public ResponseEntity<ResponseWrapper<List<Notification>>> getNotificationByUserId(@PathVariable("userId") long userId) {
+        return new ResponseEntity<>(
+            ResponseWrapper.successResponse(notificationDAO.getNotificationByUserId(userId)),
+            HttpStatus.OK
+        );
+    }
+    
     @PostMapping("/userId/{userId}")
     public ResponseEntity<ResponseWrapper<Notification>> createNotification(@RequestBody Notification notification, @PathVariable("userId") long userId) {
         notification.setUserId(userId);
