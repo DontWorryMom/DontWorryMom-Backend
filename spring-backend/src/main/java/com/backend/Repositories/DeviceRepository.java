@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DeviceRepository extends JpaRepository<Device, Integer> {
 	
-    @Query(value = "select * from Device where user_id = ?1", nativeQuery = true)
+    @Query(value = "select * from device where user_id = ?1", nativeQuery = true)
     public List<Device> findByUserId(int userId);
 }
 
