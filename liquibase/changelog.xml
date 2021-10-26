@@ -12,67 +12,66 @@
     <changeSet id="1" author="willsunnn">
     <sql>
     create table users (
-        user_id serial,
+        user_id bigserial,
         username text NOT NULL,
         PRIMARY KEY (user_id),
         UNIQUE (username)
     );
 
     create table device (
-        device_id serial,
-        user_id integer,
+        device_id bigserial,
+        user_id bigint,
         primary key (device_id),
         foreign key (user_id) references users(user_id)
     );
 
     create table notification (
-        notification_id serial,
+        notification_id bigserial,
         primary key (notification_id)
     );
 
     create table email_notification (
-        notification_id integer,
+        notification_id bigint,
         email text not null,
         primary key (notification_id),
         foreign key (notification_id) references notification(notification_id) on delete cascade
     );
 
     create table test_notification (
-        notification_id integer,
+        notification_id bigint,
         phone_number text not null,
         primary key (notification_id),
         foreign key (notification_id) references notification(notification_id) on delete cascade
     );
 
     create table past_locations (
-        device_id integer,
-        location_id serial,
+        location_id bigserial,
+        device_id bigint not null,
         location_time timestamp not null,
         location_lat float not null,
         location_lon float not null,
-        primary key (device_id, location_id),
+        primary key (location_id),
         foreign key (device_id) references device(device_id) on delete cascade
     );
 
     create table crash_detected (
-        device_id integer,
-        crash_id serial,
+        crash_id bigserial,
+        device_id bigint not null,
         crash_time timestamp not null,
         crash_lat float not null,
         crash_lon float not null,
-        primary key (device_id, crash_id),
+        primary key (crash_id),
         foreign key (device_id) references device(device_id) on delete cascade
     );
 
     create type status as ENUM('Pending', 'Sent', 'Failed');
 
     create table crash_detected_notification (
-        device_id integer,
-        crash_id integer,
-        notification_id integer,
+        crash_id bigint,
+        notification_id bigint,
         notification_status Status not null,
-        primary key (device_id, crash_id, notification_id),
-        foreign key (device_id, crash_id) references crash_detected(device_id, crash_id),
+        primary key (crash_id, notification_id),
+        foreign key (crash_id) references crash_detected(crash_id),
         foreign key (notification_id) references notification 
     );
     </sql>

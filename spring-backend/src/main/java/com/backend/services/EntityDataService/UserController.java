@@ -54,7 +54,7 @@ public class UserController {
 	}
 
 	@GetMapping("/userId/{userId}") 
-	public ResponseEntity<ResponseWrapper<User>> getUserById(@PathVariable("userId") int userId) {
+	public ResponseEntity<ResponseWrapper<User>> getUserById(@PathVariable("userId") long userId) {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(userDAO.getUserById(userId)), 
 			HttpStatus.OK);
@@ -65,7 +65,7 @@ public class UserController {
 	 */
 
 	@PutMapping("/userId/{userId}")
-	public ResponseEntity<ResponseWrapper<User>> updateUserById(@PathVariable("userId") int userId, @RequestBody User user) {
+	public ResponseEntity<ResponseWrapper<User>> updateUserById(@PathVariable("userId") long userId, @RequestBody User user) {
 		// invalid request because given parameters violate constraints
 		if(user.getUserId() != userId) {
 			return new ResponseEntity<>(
@@ -94,7 +94,7 @@ public class UserController {
 	 */
 
 	@DeleteMapping("/userId/{userId}")
-	public ResponseEntity<ResponseWrapper<Boolean>> deleteUserById(@PathVariable("userId") int userId) {
+	public ResponseEntity<ResponseWrapper<Boolean>> deleteUserById(@PathVariable("userId") long userId) {
 		userDAO.deleteUser(userId);
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(true),

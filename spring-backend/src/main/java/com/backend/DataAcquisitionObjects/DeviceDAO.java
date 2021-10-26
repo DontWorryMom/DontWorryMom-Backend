@@ -29,11 +29,11 @@ public class DeviceDAO {
         return this.getAllDevicesFromUser(user.getUserId());
     }
 
-    public List<Device> getAllDevicesFromUser(int userId) {
+    public List<Device> getAllDevicesFromUser(long userId) {
         return deviceRepository.findByUserId(userId);
     }
 
-    public Device getDeviceById(int deviceId) {
+    public Device getDeviceById(long deviceId) {
         Optional<Device> device = deviceRepository.findById(deviceId);
         if(device.isPresent()) {
             return device.get();
@@ -46,7 +46,7 @@ public class DeviceDAO {
         return deviceRepository.save(device);
     }
 
-    public void deleteDevice(int deviceId) {
+    public void deleteDevice(long deviceId) {
         deviceRepository.deleteById(deviceId);
     }
 

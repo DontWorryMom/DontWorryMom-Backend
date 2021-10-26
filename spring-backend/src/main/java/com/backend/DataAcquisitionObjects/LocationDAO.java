@@ -31,7 +31,7 @@ public class LocationDAO {
 		return this.getAllLocationsFromDevice(device.getDeviceId());
 	}
 
-	public List<Location> getAllLocationsFromDevice(int deviceId) {
+	public List<Location> getAllLocationsFromDevice(long deviceId) {
 		return locationRepository.findByDeviceId(deviceId);
 	}
 

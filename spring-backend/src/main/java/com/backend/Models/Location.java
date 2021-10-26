@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.EmbeddedId;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,17 +24,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(LocationId.class)
 public class Location implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="location_id")
-	int locationId;
+	long locationId;
 
-	@Id
 	@Column(name="device_id")
-	int deviceId;
+	long deviceId;
 
 	@Column(name="location_time")
 	Instant locationTime;

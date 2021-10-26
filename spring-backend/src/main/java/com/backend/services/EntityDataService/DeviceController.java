@@ -54,14 +54,14 @@ public class DeviceController {
 	}
 
 	@GetMapping("/deviceId/{deviceId}") 
-	public ResponseEntity<ResponseWrapper<Device>> getDeviceById(@PathVariable("deviceId") int deviceId) {
+	public ResponseEntity<ResponseWrapper<Device>> getDeviceById(@PathVariable("deviceId") long deviceId) {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(deviceDAO.getDeviceById(deviceId)), 
 			HttpStatus.OK);
 	}
 
 	@GetMapping("/userId/{userId}") 
-	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceByUserId(@PathVariable("userId") int userId) {
+	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceByUserId(@PathVariable("userId") long userId) {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(deviceDAO.getAllDevicesFromUser(userId)), 
 			HttpStatus.OK);
@@ -72,7 +72,7 @@ public class DeviceController {
 	 */
 
 	@PutMapping("/deviceId/{deviceId}")
-	public ResponseEntity<ResponseWrapper<Device>> updateDeviceById(@PathVariable("deviceId") int deviceId, @RequestBody Device device) {
+	public ResponseEntity<ResponseWrapper<Device>> updateDeviceById(@PathVariable("deviceId") long deviceId, @RequestBody Device device) {
 		// invalid request because given parameters violate constraints
 		if(device.getDeviceId() != deviceId) {
 			return new ResponseEntity<>(
@@ -101,7 +101,7 @@ public class DeviceController {
 	 */
 
 	@DeleteMapping("/deviceId/{deviceId}")
-	public ResponseEntity<ResponseWrapper<Boolean>> deleteDeviceById(@PathVariable("deviceId") int deviceId) {
+	public ResponseEntity<ResponseWrapper<Boolean>> deleteDeviceById(@PathVariable("deviceId") long deviceId) {
 		deviceDAO.deleteDevice(deviceId);
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(true),

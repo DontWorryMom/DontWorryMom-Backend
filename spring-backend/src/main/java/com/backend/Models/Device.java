@@ -23,10 +23,10 @@ public class Device {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="device_id")
-	int deviceId;
+	long deviceId;
 
 	@Column(name="user_id")
-	int userId;
+	long userId;
 
 	public void assign(Device pDevice) {
 		// this method copies variables from pUser into this

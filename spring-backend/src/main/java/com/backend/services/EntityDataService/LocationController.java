@@ -50,7 +50,7 @@ public class LocationController {
 	}
 
 	@GetMapping("/deviceId/{deviceId}") 
-	public ResponseEntity<ResponseWrapper<List<Location>>> getLocationsByDeviceId(@PathVariable("deviceId") int deviceId) {
+	public ResponseEntity<ResponseWrapper<List<Location>>> getLocationsByDeviceId(@PathVariable("deviceId") long deviceId) {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(locationDAO.getAllLocationsFromDevice(deviceId)), 
 			HttpStatus.OK);
