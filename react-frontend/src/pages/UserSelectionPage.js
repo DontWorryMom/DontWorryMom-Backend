@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link, Route } from "react-router-dom";
+import DeviceSelectionPage from './DeviceSelectionPage';
 
 class UserSelectionPage extends React.Component {
     constructor(props) {
@@ -22,7 +24,6 @@ class UserSelectionPage extends React.Component {
         // get a callback when the server responds
         req.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(req.responseText);
           const results = JSON.parse(req.responseText).results;
           this.setState({users: results})
         })
@@ -34,22 +35,21 @@ class UserSelectionPage extends React.Component {
     
     render() {
         const userLength = this.state.users.length;
-        console.log(this.state.users);
-        console.log('type of users is ' + typeof this.state.users);
+
+        const listItems = this.state.users.map((user) => 
+            <li key={user.userId}>
+                <Link to={`devices/user/${user.userId}`}>{user.username}'s Devices</Link>
+                <Route path='devices/user/:userID'>
+                    <DeviceSelectionPage />
+                </Route>
+            </li>
+            );
+        
 
         return (
             <div>
                 <div>There are currently {userLength} users</div>
-                <div>
-                    {JSON.stringify(this.state.users)}
-                </div>
-                <div>
-                    <ul>
-                        {this.state.users.map(user => {
-                            return <li key={user}>{JSON.stringify(user[0])}</li>;
-                        })}
-                    </ul>
-                </div>
+                <ul>{listItems}</ul>
             </div>
         );
         // ... code to render page

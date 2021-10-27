@@ -31,9 +31,9 @@ function App() {
       </div>
       
       <Switch>
-        <Route exact path='/' component={HomePage}></Route>
-        <Route exact path='/users' component={UserSelectionPage}></Route>
-        <Route exact path='/userID/devices' component={DeviceSelectionPage}></Route>
+        <Route exact path='/'> <HomePage /> </Route>
+        <Route exact path='/users'> <UserSelectionPage /> </Route>
+        <Route exact path='/devices/user/:userID'> <DeviceSelectionPage /> </Route>
       </Switch>
       
     </div>
