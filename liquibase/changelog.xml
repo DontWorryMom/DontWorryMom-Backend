@@ -27,7 +27,7 @@
 
     create table notification (
         notification_id bigserial,
-        user_id bigint,
+        user_id bigint not null,
         primary key (notification_id),
         foreign key (user_id) references users(user_id)
     );
@@ -54,6 +54,14 @@
         location_lon float not null,
         primary key (location_id),
         foreign key (device_id) references device(device_id) on delete cascade
+    );
+
+    create table device_notification_methods (
+        device_id bigint not null,
+        notification_id bigint not null, 
+        primary key (device_id, notification_id),
+        foreign key (device_id) references device(device_id),
+        foreign key (notification_id) references notification(notification_id)
     );
 
     create table crash_detected (
