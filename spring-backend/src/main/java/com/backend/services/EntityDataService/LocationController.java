@@ -1,5 +1,6 @@
 package com.backend.services.EntityDataService;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.backend.Models.Location;
@@ -34,6 +35,10 @@ public class LocationController {
 	@PostMapping("/deviceId/{deviceId}")
 	public ResponseEntity<ResponseWrapper<Location>> createDevice(@RequestBody Location location, @PathVariable("deviceId") long deviceId) {
 		location.setDeviceId(deviceId);
+		if(location.getLocationTime() == null) {
+			Instant now = Instant.now();
+			location.setLocationTime(now);
+		}
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(locationDAO.createLocation(location)), 
 			HttpStatus.CREATED);
