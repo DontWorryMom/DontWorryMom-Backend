@@ -419,7 +419,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"locationTime\": \"2021-10-26T20:00:00Z\",\r\n    \"locationLat\": 33.669445,\r\n    \"locationLon\": 119.4179\r\n}",
+							"raw": "{\r\n    \"locationLat\": 33.669445,\r\n    \"locationLon\": 119.4179\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -435,6 +435,29 @@
 								"locations",
 								"deviceId",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DeviceNotificationMethods",
+			"item": [
+				{
+					"name": "Get All Device Notification Methods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/deviceNotificationMethods/",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"deviceNotificationMethods",
+								""
 							]
 						}
 					},
