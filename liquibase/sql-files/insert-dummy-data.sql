@@ -26,8 +26,6 @@ with new_notif as (
 			(select min(notification_id) from new_notif), 
 			'800-1234-1234'
 		);
-
-select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user'
 	
 -- create past location data 
 --  irvine lat and long
@@ -35,43 +33,36 @@ select min(device_id) from device d inner join users u on d.user_id = u.user_id 
 --  over the last 5 minutes)
 insert into past_locations(device_id, location_time, location_lat, location_lon) 
 	values (
-		select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user',
-		now() - interval 5 minute,
+		(select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user'),
+		(now() - interval '5 minute'),
 		33.669,		-- irvine lat and long
 		-117.823
 	);
 insert into past_locations(device_id, location_time, location_lat, location_lon) 
 	values (
-		select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user',
-		now() - interval 4 minute,
+		(select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user'),
+		(now() - interval '4 minute'),
 		33.669,		-- irvine lat and long
 		-117.823
 	);
 insert into past_locations(device_id, location_time, location_lat, location_lon) 
 	values (
-		select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user',
-		now() - interval 3 minute,
+		(select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user'),
+		(now() - interval '3 minute'),
 		33.669,		-- irvine lat and long
 		-117.823
 	);
 insert into past_locations(device_id, location_time, location_lat, location_lon) 
 	values (
-		select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user',
-		now() - interval 2 minute,
+		(select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user'),
+		(now() - interval '2 minute'),
 		33.669,		-- irvine lat and long
 		-117.823
 	);
 insert into past_locations(device_id, location_time, location_lat, location_lon) 
 	values (
-		select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user',
-		now() - interval 1 minute,
-		33.669,		-- irvine lat and long
-		-117.823
-	);
-insert into past_locations(device_id, location_time, location_lat, location_lon) 
-	values (
-		select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user',
-		now(),
+		(select min(device_id) from device d inner join users u on d.user_id = u.user_id where u.username ='automation-user'),
+		(now() - interval '1 minute'),
 		33.669,		-- irvine lat and long
 		-117.823
 	);
