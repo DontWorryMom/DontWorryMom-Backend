@@ -1,1 +1,0 @@
-// here put all the stuff unique to a specific device

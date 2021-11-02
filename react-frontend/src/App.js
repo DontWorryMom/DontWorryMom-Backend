@@ -3,8 +3,7 @@
 import { 
   BrowserRouter as Router, 
   Switch, 
-  Route,
-  Link 
+  Route 
 } from 'react-router-dom';
 
 // used to set website title on tab
@@ -16,6 +15,9 @@ import HomePage from './pages/HomePage';
 import UserSelectionPage from './pages/UserSelectionPage';
 import DeviceSelectionPage from './pages/DeviceSelectionPage';
 
+// components
+import Navbar from './components/Navbar';
+
 function App() {
   return (
     <Router>
@@ -24,11 +26,7 @@ function App() {
           <title>Don't Worry Mom</title>
       </Helmet>
 
-      <div>
-        <Link to='/'>Home</Link>
-        <br/>
-        <Link to='/users'>User List</Link>
-      </div>
+      <Navbar />
       
       <Switch>
         <Route exact path='/'> <HomePage /> </Route>
