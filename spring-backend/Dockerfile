@@ -1,11 +1,13 @@
-FROM gradle:7.2.0-jdk11 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+FROM openjdk:11 AS build
+COPY build.gradle settings.gradle gradlew ./
+COPY gradle ./gradle
+RUN ./gradlew build || return 0
+COPY ./src ./src
+RUN ./gradlew build
 
 FROM openjdk:11
 EXPOSE 8080
 RUN mkdir /app
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/
+COPY --from=build /build/libs/*.jar /app/
 RUN rm /app/*plain.jar
 CMD ["/bin/sh", "-c", "java -jar /app/*.jar"]
