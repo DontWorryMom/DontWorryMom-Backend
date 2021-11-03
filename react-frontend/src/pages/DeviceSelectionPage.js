@@ -1,12 +1,14 @@
 import React from 'react';
 import { withRouter } from "react-router";
+import { Link, Route } from "react-router-dom";
+import DeviceView from '../components/DeviceView';
 
 class DeviceSelectionPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             // initialize local state here
-            userID: null,
+            userId: this.props.match.params.userID,
             devices: []
         };
         // ... other stuff needed for initialization
@@ -15,9 +17,8 @@ class DeviceSelectionPage extends React.Component {
     
 
     componentDidMount() {
-        const userId = this.props.match.params.userID;
-        console.log(userId);
-        this.getData(userId);
+        console.log('User id is ' + this.state.userId);
+        this.getData(this.state.userId);
     }
     
     
@@ -40,11 +41,15 @@ class DeviceSelectionPage extends React.Component {
     
     render() {
         const deviceLength = this.state.devices.length;
+
         const listItems = this.state.devices.map((device) => 
-            <li key={device.deviceId}>
-                {device.deviceId}
-            </li>
-            );
+        <li key={device.deviceId}>
+            <Link to={`${this.state.userId}/${device.deviceId}`}>Info for device {device.deviceId}</Link>
+            <Route path={`${this.state.userID}/${device.deviceId}`}>
+                <DeviceView />
+            </Route>
+        </li>
+        );
 
         return (
             <div>

@@ -14,6 +14,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import UserSelectionPage from './pages/UserSelectionPage';
 import DeviceSelectionPage from './pages/DeviceSelectionPage';
+import DeviceView from './components/DeviceView';
 
 // components
 import Navbar from './components/Navbar';
@@ -32,6 +33,7 @@ function App() {
         <Route exact path='/'> <HomePage /> </Route>
         <Route exact path='/users'> <UserSelectionPage /> </Route>
         <Route exact path='/devices/user/:userID'> <DeviceSelectionPage /> </Route>
+        <Route exact path='/devices/user/:userID/:deviceID'> <DeviceView /> </Route>
       </Switch>
       
     </div>
