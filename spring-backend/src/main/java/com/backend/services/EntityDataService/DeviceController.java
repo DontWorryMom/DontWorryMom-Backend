@@ -35,7 +35,7 @@ public class DeviceController {
 	 *		CREATE ENDPOINTS
 	 */
 
-	@PostMapping("/")
+	@PostMapping("")
 	public ResponseEntity<ResponseWrapper<Device>> createDevice(@RequestBody Device device) {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(deviceDAO.createDevice(device)), 
@@ -46,7 +46,7 @@ public class DeviceController {
 	 *		READ ENDPOINTS
 	 */
 
-	@GetMapping("/") 
+	@GetMapping("") 
 	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceList() {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(deviceDAO.getAllDevices()), 

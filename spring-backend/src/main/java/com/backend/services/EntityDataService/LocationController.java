@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,17 +49,34 @@ public class LocationController {
 	 *		READ ENDPOINTS
 	 */
 
-	@GetMapping("/") 
-	public ResponseEntity<ResponseWrapper<List<Location>>> getLocations() {
+	@GetMapping("") 
+	public ResponseEntity<ResponseWrapper<List<? extends Location>>> getLocations(
+			@RequestParam(name="onlyCrashes", defaultValue="false") boolean onlyShowCrashes) {
+		
+		List<? extends Location> results;
+		if(onlyShowCrashes) {
+			results = locationDAO.getAllCrashDetecteds();
+		} else {
+			results = locationDAO.getAllLocations();
+		}
 		return new ResponseEntity<>(
-			ResponseWrapper.successResponse(locationDAO.getAllLocations()), 
+			ResponseWrapper.successResponse(results), 
 			HttpStatus.OK);
 	}
 
 	@GetMapping("/deviceId/{deviceId}") 
-	public ResponseEntity<ResponseWrapper<List<Location>>> getLocationsByDeviceId(@PathVariable("deviceId") long deviceId) {
+	public ResponseEntity<ResponseWrapper<List<? extends Location>>> getLocationsByDeviceId(
+			@PathVariable("deviceId") long deviceId,
+			@RequestParam(name="onlyCrashes", defaultValue="false") boolean onlyShowCrashes) {
+		
+		List<? extends Location> results;
+		if(onlyShowCrashes) {
+			results = locationDAO.getAllCrashDetectedsFromDevice(deviceId);
+		} else {
+			results = locationDAO.getAllLocationsFromDevice(deviceId);
+		}
 		return new ResponseEntity<>(
-			ResponseWrapper.successResponse(locationDAO.getAllLocationsFromDevice(deviceId)), 
+			ResponseWrapper.successResponse(results), 
 			HttpStatus.OK);
 	}
 }

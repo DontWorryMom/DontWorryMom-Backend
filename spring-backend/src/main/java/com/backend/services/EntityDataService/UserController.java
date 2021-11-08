@@ -35,7 +35,7 @@ public class UserController {
 	 *		CREATE ENDPOINTS
 	 */
 
-	@PostMapping("/")
+	@PostMapping("")
 	public ResponseEntity<ResponseWrapper<User>> createUser(@RequestBody User user) {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(userDAO.createUser(user)), 
@@ -46,7 +46,7 @@ public class UserController {
 	 *		READ ENDPOINTS
 	 */
 
-	@GetMapping("/") 
+	@GetMapping("") 
 	public ResponseEntity<ResponseWrapper<List<User>>> getUserList() {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(userDAO.getAllUsers()), 

@@ -65,23 +65,20 @@
     );
 
     create table crash_detected (
-        crash_id bigserial,
-        device_id bigint not null,
-        crash_time timestamp not null,
-        crash_lat float not null,
-        crash_lon float not null,
-        primary key (crash_id),
-        foreign key (device_id) references device(device_id) on delete cascade
+        location_id bigint,
+        max_acceleration float not null,
+        primary key (location_id),
+        foreign key (location_id) references past_locations(location_id)
     );
 
     create type status as ENUM('Pending', 'Sent', 'Failed');
 
     create table crash_detected_notification (
-        crash_id bigint,
+        location_id bigint,
         notification_id bigint,
         notification_status Status not null,
-        primary key (crash_id, notification_id),
-        foreign key (crash_id) references crash_detected(crash_id),
+        primary key (location_id, notification_id),
+        foreign key (location_id) references crash_detected(location_id),
         foreign key (notification_id) references notification 
     );
     </sql>

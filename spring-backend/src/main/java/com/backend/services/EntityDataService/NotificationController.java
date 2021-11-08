@@ -27,7 +27,7 @@ public class NotificationController {
 		this.notificationDAO = notificationDAO;
 	}
     
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ResponseWrapper<List<Notification>>> getAllNotifications() {
         return new ResponseEntity<>(
             ResponseWrapper.successResponse(notificationDAO.getAllNotifications()),
