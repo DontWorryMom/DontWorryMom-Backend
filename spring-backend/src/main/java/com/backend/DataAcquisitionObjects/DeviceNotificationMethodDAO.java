@@ -14,6 +14,7 @@ import com.backend.Repositories.LocationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Component
@@ -34,8 +35,8 @@ public class DeviceNotificationMethodDAO {
         return dnmRepo.save(dnm);
     }
 
+    @Transactional
     public void deleteDeviceNotificationMethod(DeviceNotificationMethods dnm) {
-        DeviceNotificationMethodsId id = new DeviceNotificationMethodsId(dnm.getDeviceId(), dnm.getNotificationId());
-        dnmRepo.deleteById(id);
+        dnmRepo.deleteByDeviceIdAndNotificationId(dnm.getDeviceId(), dnm.getNotificationId());
     }
 }
