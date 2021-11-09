@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import com.backend.Configuration.Config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -21,8 +22,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class CrashDetected extends Location {
-
-	public static final double CRASH_THRESHOLD_ACCELERATION = 9.8;
 	
 	@Column(name="max_acceleration")
 	float maxAcceleration;
@@ -35,7 +34,7 @@ public class CrashDetected extends Location {
     public static Location parse(JsonNode node) throws JsonProcessingException {
 		Location loc = Location.parse(node);
 		float maxAcceleration = (float) node.get("maxAcceleration").asDouble();
-		if(maxAcceleration >= CRASH_THRESHOLD_ACCELERATION) {
+		if(maxAcceleration >= Config.ACCELEROMETER_CRASH_THRESHOLD) {
 			return CrashDetected.builder()
 				// parent properties
 				.locationId(loc.getLocationId())
