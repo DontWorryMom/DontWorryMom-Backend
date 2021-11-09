@@ -1,7 +1,7 @@
 package com.backend.Repositories;
 
 import com.backend.Models.CrashDetectedNotification;
-import com.backend.Models.JpaIdClasses.CrashDetectedNotificationId;
+import com.backend.Models.CrashDetectedNotificationId;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

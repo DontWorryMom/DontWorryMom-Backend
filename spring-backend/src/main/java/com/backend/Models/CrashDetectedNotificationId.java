@@ -1,4 +1,4 @@
-package com.backend.Models.JpaIdClasses;
+package com.backend.Models;
 
 import java.io.Serializable;
 
