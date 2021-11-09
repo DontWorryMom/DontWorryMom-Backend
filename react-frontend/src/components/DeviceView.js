@@ -30,7 +30,7 @@ class DeviceView extends React.Component {
           this.setState({locationList: locations})
         })
         // open the request with the verb and the url
-        locs.open('GET', `http://localhost:8080/locations/deviceId/${deviceId}`)
+        locs.open('GET', window.DB_BASE_URL + `/locations/deviceId/${deviceId}`)
         // send the request
         locs.send()
     }

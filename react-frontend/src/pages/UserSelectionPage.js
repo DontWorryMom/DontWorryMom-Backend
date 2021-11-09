@@ -28,7 +28,7 @@ class UserSelectionPage extends React.Component {
           this.setState({users: results})
         })
         // open the request with the verb and the url
-        req.open('GET', 'http://localhost:8080/users/')
+        req.open('GET', window.DB_BASE_URL + '/users/')
         // send the request
         req.send()
     }

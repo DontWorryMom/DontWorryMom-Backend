@@ -34,7 +34,7 @@ class DeviceSelectionPage extends React.Component {
           this.setState({devices: results})
         })
         // open the request with the verb and the url
-        req.open('GET', `http://localhost:8080/devices/userId/${id}`)
+        req.open('GET', window.DB_BASE_URL + `/devices/userId/${id}`)
         // send the request
         req.send()
     }
