@@ -40,8 +40,9 @@ public class LocationController {
 			Instant now = Instant.now();
 			location.setLocationTime(now);
 		}
+		Location createdLocation = locationDAO.createLocation(location);
 		return new ResponseEntity<>(
-			ResponseWrapper.successResponse(locationDAO.createLocation(location)), 
+			ResponseWrapper.successResponse(createdLocation), 
 			HttpStatus.CREATED);
 	}
 	

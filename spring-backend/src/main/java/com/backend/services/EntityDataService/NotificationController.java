@@ -5,6 +5,7 @@ import java.util.List;
 import com.backend.DataAcquisitionObjects.NotificationDAO;
 import com.backend.Models.Notification;
 import com.backend.Models.ResponseWrapper;
+import com.backend.util.TwilioUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
 
 	NotificationDAO notificationDAO;
+    TwilioUtil twilioUtil;
 
 	@Autowired
-	public NotificationController(NotificationDAO notificationDAO) {
+	public NotificationController(NotificationDAO notificationDAO, TwilioUtil twilioUtil) {
 		this.notificationDAO = notificationDAO;
+        this.twilioUtil = twilioUtil;
 	}
     
     @GetMapping("")
@@ -59,5 +62,10 @@ public class NotificationController {
             ResponseWrapper.successResponse(notification),
             HttpStatus.OK
         );
+    }
+
+    @GetMapping("/send-message/{number}")
+    public ResponseEntity<String> sendMessage(@PathVariable("number") String userId) {
+        return new ResponseEntity<>(twilioUtil.sendMessage(userId, "hello world from twilio"), HttpStatus.OK);
     }
 }

@@ -71,7 +71,7 @@
         foreign key (location_id) references past_locations(location_id)
     );
 
-    create type status as ENUM('Pending', 'Sent', 'Failed');
+    create type status as ENUM('PENDING', 'SENT', 'FAILED');
 
     create table crash_detected_notification (
         location_id bigint,
