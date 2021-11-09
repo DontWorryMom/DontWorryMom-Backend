@@ -3,6 +3,7 @@ package com.backend.Deserializers;
 import java.io.IOException;
 
 import com.backend.Models.EmailNotification;
+import com.backend.Models.Notification;
 import com.backend.Models.TextNotification;
 import com.backend.Models.Notification.NotificationType;
 import com.fasterxml.jackson.core.JsonParser;
@@ -12,7 +13,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class NotificationDeserializer extends JsonDeserializer {
+public class NotificationDeserializer extends JsonDeserializer<Notification> {
 
     static ObjectMapper mapper = new ObjectMapper();
 
@@ -28,7 +29,7 @@ public class NotificationDeserializer extends JsonDeserializer {
     }
 
     @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt)
+    public Notification deserialize(JsonParser p, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
         JsonNode node = p.readValueAsTree();
         NotificationType type = getNotificationType(node.get("type").asText());

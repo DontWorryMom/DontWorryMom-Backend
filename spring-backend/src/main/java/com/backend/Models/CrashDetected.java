@@ -2,22 +2,20 @@ package com.backend.Models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=true)
 @Table(name="crash_detected")
 @PrimaryKeyJoinColumn(name="location_id")
 @NoArgsConstructor

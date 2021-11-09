@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class LocationDeserializer extends JsonDeserializer {
+public class LocationDeserializer extends JsonDeserializer<Location> {
 
     static ObjectMapper mapper = new ObjectMapper();
 
@@ -28,7 +28,7 @@ public class LocationDeserializer extends JsonDeserializer {
     }
 
     @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt)
+    public Location deserialize(JsonParser p, DeserializationContext ctxt)
             throws IOException, JsonProcessingException {
         JsonNode node = p.readValueAsTree();
         if (node.has("maxAcceleration")) {

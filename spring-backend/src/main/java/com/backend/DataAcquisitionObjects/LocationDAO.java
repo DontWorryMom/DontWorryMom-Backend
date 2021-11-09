@@ -1,14 +1,11 @@
 package com.backend.DataAcquisitionObjects;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.backend.Models.User;
 import com.backend.Models.CrashDetected;
 import com.backend.Models.Device;
 import com.backend.Models.Location;
 import com.backend.Repositories.CrashDetectedRepository;
-import com.backend.Repositories.DeviceRepository;
 import com.backend.Repositories.LocationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

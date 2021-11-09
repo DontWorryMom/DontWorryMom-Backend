@@ -29,7 +29,7 @@ public class TwilioUtil {
 			new PhoneNumber(config.TWILIO_FROM_NUMBER),		// FROM NUMBER
 			messageContents
 		).create();
-		return message.getSid().toString();
+		return message.getSid();
 	}
 
 }
