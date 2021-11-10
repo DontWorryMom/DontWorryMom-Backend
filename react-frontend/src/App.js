@@ -8,7 +8,6 @@ import {
 
 // used to set website title on tab
 import { Helmet } from "react-helmet";
-import './App.css';
 
 // pages created
 import HomePage from './pages/HomePage';

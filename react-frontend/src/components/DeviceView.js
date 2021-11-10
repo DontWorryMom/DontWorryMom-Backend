@@ -1,7 +1,9 @@
 // here put all the stuff unique to a specific device
 import React from 'react';
 import { withRouter } from "react-router";
-import { Link, Route } from "react-router-dom";
+
+import LocationView from './LocationView';
+
 
 class DeviceView extends React.Component {
     constructor(props) {
@@ -9,12 +11,12 @@ class DeviceView extends React.Component {
         this.state = {
             userId: this.props.match.params.userID,
             deviceId: this.props.match.params.deviceID,
-            locationList: []
+            locationList: [],
+            dataReady: false
           }
     }
 
     componentDidMount() { 
-        console.log(this.state.userId);
         this.getData(this.state.userId, this.state.deviceId);
     }
 
@@ -28,6 +30,7 @@ class DeviceView extends React.Component {
           console.log(locs.responseText);
           const locations = JSON.parse(locs.responseText).results;
           this.setState({locationList: locations})
+          this.setState({dataReady: true});
         })
         // open the request with the verb and the url
         locs.open('GET', window.DB_BASE_URL + `/locations/deviceId/${deviceId}`)
@@ -35,24 +38,14 @@ class DeviceView extends React.Component {
         locs.send()
     }
 
+
     render() {
-        
-        const listItems = this.state.locationList.map((location) => 
-        <li key={location.locationId}>
-            Location {location.locationId}:
-            <br/>
-            Time is {location.locationTime}
-            <br/>
-            Latitude is {location.locationLat}
-            <br/>
-            Longitude is {location.locationLon}
-        </li>
-        );
         
         return (
             <div>
                 This is a device view for device id: {this.state.deviceId}
-                <ul>{listItems}</ul>
+                {this.state.dataReady ? <LocationView locations={this.state.locationList}/> : <p>No Location Data</p>}
+                
             </div>
           );
     }

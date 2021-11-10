@@ -17,7 +17,6 @@ class DeviceSelectionPage extends React.Component {
     
 
     componentDidMount() {
-        console.log('User id is ' + this.state.userId);
         this.getData(this.state.userId);
     }
     
@@ -29,7 +28,6 @@ class DeviceSelectionPage extends React.Component {
         // get a callback when the server responds
         req.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(req.responseText);
           const results = JSON.parse(req.responseText).results;
           this.setState({devices: results})
         })
