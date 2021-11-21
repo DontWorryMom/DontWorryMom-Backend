@@ -5,6 +5,7 @@ import java.util.List;
 import com.backend.DataAcquisitionObjects.NotificationDAO;
 import com.backend.Models.Notification;
 import com.backend.Models.ResponseWrapper;
+import com.backend.util.SendGridUtil;
 import com.backend.util.TwilioUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class NotificationController {
 
 	NotificationDAO notificationDAO;
     TwilioUtil twilioUtil;
+    SendGridUtil sendGridUtil;
 
 	@Autowired
-	public NotificationController(NotificationDAO notificationDAO, TwilioUtil twilioUtil) {
+	public NotificationController(NotificationDAO notificationDAO, TwilioUtil twilioUtil, SendGridUtil sendGridUtil) {
 		this.notificationDAO = notificationDAO;
         this.twilioUtil = twilioUtil;
+        this.sendGridUtil = sendGridUtil;
 	}
     
     @GetMapping("")
@@ -65,7 +68,12 @@ public class NotificationController {
     }
 
     @GetMapping("/send-message/{number}")
-    public ResponseEntity<String> sendMessage(@PathVariable("number") String userId) {
-        return new ResponseEntity<>(twilioUtil.sendMessage(userId, "hello world from twilio"), HttpStatus.OK);
+    public ResponseEntity<String> sendMessage(@PathVariable("number") String number) {
+        return new ResponseEntity<>(twilioUtil.sendMessage(number, "hello world from twilio"), HttpStatus.OK);
+    }
+
+    @GetMapping("/send-email/{address}")
+    public ResponseEntity<String> sendEmail(@PathVariable("address") String address) {
+        return new ResponseEntity<>(sendGridUtil.sendEmail(address, "hello world", "hello world from sendgrid"), HttpStatus.OK);
     }
 }
