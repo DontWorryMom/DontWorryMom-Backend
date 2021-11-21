@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from "react-router";
 
 import LocationView from './LocationView';
+import NotificationView from './NotificationView';
 
 
 class DeviceView extends React.Component {
@@ -44,6 +45,7 @@ class DeviceView extends React.Component {
         return (
             <div>
                 This is a device view for device id: {this.state.deviceId}
+                <NotificationView userId={this.state.userId}/>
                 {this.state.dataReady ? <LocationView locations={this.state.locationList}/> : <p>No Location Data</p>}
                 
             </div>

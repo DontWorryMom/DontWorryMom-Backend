@@ -103,12 +103,13 @@ class LocationView extends React.Component {
 					Show Next Location
 				</Button>
 
-                {console.log(this.props.locations)}
+                {/*console.log(this.props.locations)*/}
 
                 
-                <div style={{height: '50vh', width: '50%', display: "flex",justifyContent: "center", alignItems: "center"}}>
+                <div style={{height: '50vh', width: '50%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
                 
                 {/* comment this out to save API calls plz*/}
+                {/*}
                 <GoogleMapReact
                     bootstrapURLKeys= {{key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY}}
                     defaultCenter={coords}
@@ -119,7 +120,7 @@ class LocationView extends React.Component {
                     onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
                 >
 
-                </GoogleMapReact>
+                </GoogleMapReact>*/}
                 </div>
                 
 
