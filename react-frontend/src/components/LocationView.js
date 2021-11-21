@@ -1,6 +1,7 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 const styles = {
     center: {
@@ -59,7 +60,7 @@ class LocationView extends React.Component {
     }
 
     get_prev_loc() {
-        if (this.index != 0) {
+        if (this.index !== 0) {
             this.index = this.index - 1;
             this.setState ({
                 time: this.props.locations[this.index].locationTime,
@@ -71,12 +72,18 @@ class LocationView extends React.Component {
 
     print_location() {
         return (
-            <div>
+            <Box sx={{
+                //add styling here
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: { xs: 'center'},
+            }}
+            >
                 <p>{this.index}</p>
                 <p>{this.state.time}</p>
                 <p>{this.state.lat}</p>
                 <p>{this.state.long}</p>
-            </div>
+            </Box>
         )
     }
 
@@ -94,19 +101,28 @@ class LocationView extends React.Component {
         };
 
         return (
-            <div>
+            <Box sx={{
+                //add styling here
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: { xs: 'center'},
+                
+                }}
+            >
                 {this.print_location()}
+                <div>
                 <Button onClick={this.get_prev_loc} variant="outlined" color="primary" >
 					Show Previous Location
 				</Button>
 				<Button onClick={this.get_next_loc} variant="outlined" color="primary" >
 					Show Next Location
 				</Button>
+                </div>
 
                 {/*console.log(this.props.locations)*/}
 
                 
-                <div style={{height: '50vh', width: '50%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
+                <div style={{height: '50vh', width: '100%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
                 
                 {/* comment this out to save API calls plz*/}
                 {/*}
@@ -124,7 +140,7 @@ class LocationView extends React.Component {
                 </div>
                 
 
-            </div>
+            </Box>
         );
     }
 }

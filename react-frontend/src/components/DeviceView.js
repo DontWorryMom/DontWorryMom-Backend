@@ -1,6 +1,7 @@
 // here put all the stuff unique to a specific device
 import React from 'react';
 import { withRouter } from "react-router";
+import Box from '@mui/material/Box';
 
 import LocationView from './LocationView';
 import NotificationView from './NotificationView';
@@ -43,11 +44,21 @@ class DeviceView extends React.Component {
     render() {
         
         return (
-            <div>
-                This is a device view for device id: {this.state.deviceId}
-                <NotificationView userId={this.state.userId}/>
-                {this.state.dataReady ? <LocationView locations={this.state.locationList}/> : <p>No Location Data</p>}
+            <div>This is a device view for device id: {this.state.deviceId}
+            <Box
+                sx={{
+                    //add styling here
+                }}
+            >
+                <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                    <NotificationView userId={this.state.userId}/>
+                    {this.state.dataReady ? <LocationView locations={this.state.locationList}/> : <p>No Location Data</p>}
+                    <p>Insert Fall Detection Stuff Here</p>
+                </Box>
                 
+                
+                
+            </Box>
             </div>
           );
     }

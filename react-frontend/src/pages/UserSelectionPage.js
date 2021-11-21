@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, Route } from "react-router-dom";
 import DeviceSelectionPage from './DeviceSelectionPage';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import PersonIcon from '@mui/icons-material/Person';
 
 class UserSelectionPage extends React.Component {
     constructor(props) {
@@ -36,21 +39,37 @@ class UserSelectionPage extends React.Component {
     render() {
         const userLength = this.state.users.length;
 
-        const listItems = this.state.users.map((user) => 
-            <li key={user.userId}>
-                <Link to={`devices/user/${user.userId}`}>{user.username}'s Devices</Link>
-                <Route path='devices/user/:userID'>
-                    <DeviceSelectionPage />
-                </Route>
-            </li>
-            );
-        
-
         return (
-            <div>
-                <div>There are currently {userLength} users</div>
-                <ul>{listItems}</ul>
-            </div>
+            <Box
+                sx={{
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                }}
+            >
+                <div>
+                    <div>There are currently {userLength} users</div>
+                </div>
+                <Box sx={{ flexGrow: 1 }}>
+                        <Grid container spacing={6}>
+                            {this.state.users.map((user) => 
+                                <Grid item xs={4} sx={{
+                                                        //add styling here
+                                                        display: 'flex',
+                                                        flexDirection: 'column',
+                                                        alignItems: { xs: 'center'},
+                                                    }}>
+                                    <PersonIcon />
+                                    <br />
+                                    <Link to={`devices/user/${user.userId}`}>{user.username}'s Devices</Link>
+                                </Grid>
+                            
+                            )} 
+                            
+                        </Grid>
+                    </Box>
+            </Box>
         );
         // ... code to render page
     }

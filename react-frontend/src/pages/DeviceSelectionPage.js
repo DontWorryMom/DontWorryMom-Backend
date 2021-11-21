@@ -1,7 +1,9 @@
 import React from 'react';
 import { withRouter } from "react-router";
-import { Link, Route } from "react-router-dom";
-import DeviceView from '../components/DeviceView';
+import { Link } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
 
 class DeviceSelectionPage extends React.Component {
     constructor(props) {
@@ -40,19 +42,36 @@ class DeviceSelectionPage extends React.Component {
     render() {
         const deviceLength = this.state.devices.length;
 
-        const listItems = this.state.devices.map((device) => 
-        <li key={device.deviceId}>
-            <Link to={`${this.state.userId}/${device.deviceId}`}>Info for device {device.deviceId}</Link>
-            <Route path={`${this.state.userID}/${device.deviceId}`}>
-                <DeviceView />
-            </Route>
-        </li>
-        );
-
         return (
-            <div>
-                <div>Num of Devices is {deviceLength}</div>
-                <ul>{listItems}</ul>
+            <div>Num of Devices is {deviceLength}
+            <Box
+                sx={{
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                }}
+            >
+                
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={6}>
+                        {this.state.devices.map((device) => 
+                            <Grid item xs={4} sx={{
+                                                    //add styling here
+                                                    display: 'flex',
+                                                    flexDirection: 'column',
+                                                    alignItems: { xs: 'center'},
+                                                }}>
+                                <DirectionsBikeIcon />
+                                <br />
+                                <Link to={`${this.state.userId}/${device.deviceId}`}>Info for device {device.deviceId}</Link>
+                            </Grid>
+                        
+                        )} 
+                        
+                    </Grid>
+                </Box>
+            </Box>
             </div>
         );
         // ... code to render page

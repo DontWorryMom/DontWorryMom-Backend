@@ -40,7 +40,7 @@ class NotificationView extends React.Component {
     // helper function to print each notification method with its correct icon
     print_notif(notif) {
         console.log(notif.type);
-        if (notif.type == 'TEXT_NOTIFICATION') {
+        if (notif.type === 'TEXT_NOTIFICATION') {
             return (
                 <ListItem>
                     <PhoneIphoneIcon />
@@ -48,7 +48,7 @@ class NotificationView extends React.Component {
                 </ListItem>
             )
         }
-        else if (notif.type == 'EMAIL_NOTIFICATION') {
+        else if (notif.type === 'EMAIL_NOTIFICATION') {
             return (
                 <ListItem>
                     <EmailIcon />
@@ -73,7 +73,7 @@ class NotificationView extends React.Component {
         if (this.state.notificationList != null)
         {
             return (
-                <div>Notifications
+                <div>Active Notifications
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         {this.state.notificationList.map(this.print_notif)}
                     </List>
