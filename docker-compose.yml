@@ -35,21 +35,6 @@ services:
     depends_on:
       - "db"
       - "spring-backend"
-  liquibase:
-    image: liquibase/liquibase
-    container_name: liquibase
-    depends_on:
-      - "db"
-    volumes:
-      - ./liquibase/changelog.xml:/liquibase/changelog.xml
-      - ./liquibase/sql-files/:/liquibase/sql-files/
-    command: [
-        '--url=jdbc:postgresql://db:5432/${DB_NAME}',
-        '--changelog-file=changelog.xml',
-        '--username=${DB_USERNAME}',
-        '--password=${DB_PASSWORD}',
-        'update'
-        ]
 
 volumes:
   db-volume:
