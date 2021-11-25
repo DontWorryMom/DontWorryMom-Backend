@@ -33,15 +33,41 @@
     - PORT (This variable is set automatically by Heroku at launch)
 - jump to step (Pushing to Spring Backend)
 
+## Create App for React
+1. Create App for Pipeline for React
+    - The app name will be referenced from here on as '**dwm-react-prod**'
+    - The app name can be anything, but it will be used in commands, so ensure the correct name when copying commands
+2. Change Deploy stack from default (Heroku CLI likely) to Container Registry
+    - heroku stack:set container --app **dwm-react-prod**
+3. Set ENV Variables in the Config Vars tab
+    - REACT_APP_SPRING_BACKEND_FULL_URL         // this should be the URL of the Spring Service above
+    - REACT_APP_GOOGLE_MAPS_API_KEY
+    - PORT (This variable is set automatically by Heroku at launch)
+4. Jump to step (Pushing to React)
+
+
 # Subsequent Deployments
 
 ## Pushing to Spring Backend
 1. Login to Heroku Command Line
     * heroku login
     * heroku container:login
-2. Change to spring-backend directory
+2. Add/change ENV variables if necessary (see above)
+3. Change to spring-backend directory
     * cd ./spring-backend
-3. Build and Push the container to Heroku
+4. Build and Push the container to Heroku
     * heroku container:push web --app dwm-spring-prod
-4. Release the container on Heroku
+5. Release the container on Heroku
     * heroku container:release web --app dwm-spring-prod
+
+## Pushing to React
+1. Login to Heroku Command Line
+    * heroku login
+    * heroku container:login
+2. Add/change ENV variables if necessary (see above)
+3. Change to react-frontend directory
+    * cd ./react-frontend
+4. Build and Push the container to Heroku
+    * heroku container:push web --app dwm-react-prod
+5. Release the container on Heroku
+    * heroku container:release web --app dwm-react-prod
