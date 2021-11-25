@@ -3,8 +3,10 @@ package com.backend.services.EntityDataService;
 import java.time.Instant;
 import java.util.List;
 
+import com.backend.Models.CrashDetected;
 import com.backend.Models.Location;
 import com.backend.Models.ResponseWrapper;
+import com.backend.util.LocationToNotificationProcessor;
 import com.backend.DataAcquisitionObjects.LocationDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationController {
 
 	LocationDAO locationDAO;
+	LocationToNotificationProcessor locationToNotificationProcessor;
 
 	@Autowired
-	public LocationController(LocationDAO locationDAO) {
+	public LocationController(LocationDAO locationDAO, LocationToNotificationProcessor locNotifProcessor) {
 		this.locationDAO = locationDAO;
+		this.locationToNotificationProcessor = locNotifProcessor;
 	}
 	
 	/*
@@ -34,13 +38,18 @@ public class LocationController {
 	 */
 
 	@PostMapping("/deviceId/{deviceId}")
-	public ResponseEntity<ResponseWrapper<Location>> createDevice(@RequestBody Location location, @PathVariable("deviceId") long deviceId) {
+	public ResponseEntity<ResponseWrapper<Location>> createLocation(@RequestBody Location location, @PathVariable("deviceId") long deviceId) {
 		location.setDeviceId(deviceId);
 		if(location.getLocationTime() == null) {
 			Instant now = Instant.now();
 			location.setLocationTime(now);
 		}
 		Location createdLocation = locationDAO.createLocation(location);
+
+		if(createdLocation instanceof CrashDetected) {
+			this.locationToNotificationProcessor.sendNotificationsForCrash((CrashDetected) createdLocation);
+		}
+
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(createdLocation), 
 			HttpStatus.CREATED);

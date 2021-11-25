@@ -24,6 +24,10 @@ public class DeviceNotificationMethodDAO {
         return dnmRepo.findAll();
     }
 
+    public List<DeviceNotificationMethods> getDeviceNotificationMethodsByDeviceId(long deviceId) {
+        return dnmRepo.findByDeviceId(deviceId);
+    }
+
     public DeviceNotificationMethods createDeviceNotificationMethod(DeviceNotificationMethods dnm) {
         return dnmRepo.save(dnm);
     }
