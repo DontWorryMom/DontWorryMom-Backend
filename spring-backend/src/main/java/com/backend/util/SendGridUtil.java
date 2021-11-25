@@ -35,9 +35,9 @@ public class SendGridUtil {
 			request.setEndpoint("mail/send");
 			request.setBody(mail.build());
 			Response response = sendGrid.api(request);
-			System.out.println(response.getStatusCode());
-			System.out.println(response.getBody());
-			System.out.println(response.getHeaders());
+			if(response.getStatusCode() >= 300) {
+				throw new RuntimeException("Sendgrid returned non-successful HTTP Code. Failed to send email notification");
+			}
 			return response.getBody();
 		} catch (IOException ex) {
 			ex.printStackTrace();

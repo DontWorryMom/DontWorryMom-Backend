@@ -8,10 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import com.backend.Deserializers.PostgreSQLEnumType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="crash_detected_notification")
@@ -20,6 +25,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @IdClass(CrashDetectedNotificationId.class)
+@TypeDef(
+    name = "pgsql_enum",
+    typeClass = PostgreSQLEnumType.class
+)
 public class CrashDetectedNotification {
 	@Id
 	@Column(name="location_id")
@@ -31,5 +40,6 @@ public class CrashDetectedNotification {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name="notification_status")
+	@Type(type="pgsql_enum")
 	NotificationStatus notificationStatus;
 }
