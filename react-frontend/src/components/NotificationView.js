@@ -4,6 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+var config = require("../Config").config;
 
 class NotificationView extends React.Component {
 
@@ -32,7 +33,7 @@ class NotificationView extends React.Component {
           this.setState({notificationList: notifications})
         })
         // open the request with the verb and the url
-        notifs.open('GET', window.DB_BASE_URL + `/notifications/userId/${this.props.userId}`)
+        notifs.open('GET', config.SPRING_BACKEND_FULL_URL + `/notifications/userId/${this.props.userId}`)
         // send the request
         notifs.send()
     }

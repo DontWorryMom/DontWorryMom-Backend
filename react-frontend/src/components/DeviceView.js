@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 
 import LocationView from './LocationView';
 import NotificationView from './NotificationView';
+var config = require("../Config").config;
 
 
 class DeviceView extends React.Component {
@@ -35,7 +36,7 @@ class DeviceView extends React.Component {
           this.setState({dataReady: true});
         })
         // open the request with the verb and the url
-        locs.open('GET', window.DB_BASE_URL + `/locations/deviceId/${deviceId}`)
+        locs.open('GET', config.SPRING_BACKEND_FULL_URL + `/locations/deviceId/${deviceId}`)
         // send the request
         locs.send()
     }

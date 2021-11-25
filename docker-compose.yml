@@ -32,10 +32,14 @@ services:
   react-frontend:
     build: ./react-frontend/
     ports:
-      - "3000:3000"
+      - ${REACT_EXPOSED_PORT}:${REACT_EXPOSED_PORT}
     depends_on:
       - "db"
       - "spring-backend"
+    environment:
+      PORT: ${REACT_EXPOSED_PORT}
+      REACT_APP_SPRING_BACKEND_FULL_URL: ${REACT_APP_SPRING_BACKEND_FULL_URL}
+      REACT_APP_GOOGLE_MAPS_API_KEY: ${REACT_APP_GOOGLE_MAPS_API_KEY}
 
 volumes:
   db-volume:

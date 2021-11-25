@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+var config = require("../Config").config;
 
 const styles = {
     center: {
@@ -119,15 +120,9 @@ class LocationView extends React.Component {
 				</Button>
                 </div>
 
-                {/*console.log(this.props.locations)*/}
-
-                
                 <div style={{height: '50vh', width: '100%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
-                
-                {/* comment this out to save API calls plz*/}
-                {/*}
                 <GoogleMapReact
-                    bootstrapURLKeys= {{key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY}}
+                    bootstrapURLKeys= {{key: config.GOOGLE_MAPS_API_KEY}}
                     defaultCenter={coords}
                     center={coords}
                     defaultZoom={14}
@@ -136,7 +131,7 @@ class LocationView extends React.Component {
                     onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
                 >
 
-                </GoogleMapReact>*/}
+                </GoogleMapReact>
                 </div>
                 
 

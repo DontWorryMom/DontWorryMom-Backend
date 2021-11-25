@@ -4,8 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-window.DB_BASE_URL = "http://localhost:8080"
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+var config = require("../Config").config;
 
 class DeviceSelectionPage extends React.Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class DeviceSelectionPage extends React.Component {
           this.setState({devices: results})
         })
         // open the request with the verb and the url
-        req.open('GET', window.DB_BASE_URL + `/devices/userId/${id}`)
+        req.open('GET', config.SPRING_BACKEND_FULL_URL + `/devices/userId/${id}`)
         // send the request
         req.send()
     }

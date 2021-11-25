@@ -4,6 +4,7 @@ import DeviceSelectionPage from './DeviceSelectionPage';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import PersonIcon from '@mui/icons-material/Person';
+var config = require("../Config").config;
 
 class UserSelectionPage extends React.Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class UserSelectionPage extends React.Component {
           this.setState({users: results})
         })
         // open the request with the verb and the url
-        req.open('GET', window.DB_BASE_URL + '/users/')
+        req.open('GET', config.SPRING_BACKEND_FULL_URL + '/users/')
         // send the request
         req.send()
     }
