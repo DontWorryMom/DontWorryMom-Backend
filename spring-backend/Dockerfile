@@ -10,4 +10,4 @@ EXPOSE 8080
 RUN mkdir /app
 COPY --from=build /build/libs/*.jar /app/
 RUN rm /app/*plain.jar
-CMD ["/bin/sh", "-c", "java -jar /app/*.jar"]
+CMD ["/bin/sh", "-c", "java -jar --enable-preview /app/*.jar"]

@@ -6,7 +6,15 @@ plugins {
 
 group = 'com.backend'
 version = '1.0.0'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
+
+tasks.withType(JavaCompile).each {
+    it.options.compilerArgs.add('--enable-preview')
+}
+
+tasks.withType(Test) {
+    jvmArgs += "--enable-preview"
+}
 
 configurations {
     compileOnly {
