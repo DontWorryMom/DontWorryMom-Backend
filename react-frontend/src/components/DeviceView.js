@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 
 import LocationView from './LocationView';
 import NotificationView from './NotificationView';
+import CrashView from './CrashView';
 var config = require("../Config").config;
 
 
@@ -35,8 +36,9 @@ class DeviceView extends React.Component {
           this.setState({locationList: locations})
           this.setState({dataReady: true});
         })
+        
         // open the request with the verb and the url
-        locs.open('GET', config.SPRING_BACKEND_FULL_URL + `/locations/deviceId/${deviceId}`)
+        locs.open('GET', config.SPRING_BACKEND_FULL_URL + `/locations/deviceId/${deviceId}`)        
         // send the request
         locs.send()
     }
@@ -54,7 +56,7 @@ class DeviceView extends React.Component {
                 <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
                     <NotificationView userId={this.state.userId}/>
                     {this.state.dataReady ? <LocationView locations={this.state.locationList}/> : <p>No Location Data</p>}
-                    <p>Insert Fall Detection Stuff Here</p>
+                    <CrashView deviceId={this.state.deviceId}/>
                 </Box>
                 
                 

@@ -12,7 +12,7 @@ class NotificationView extends React.Component {
         super(props);
         this.state = {
             notificationList: null
-          }
+        }
         
     }
 
@@ -40,7 +40,6 @@ class NotificationView extends React.Component {
 
     // helper function to print each notification method with its correct icon
     print_notif(notif) {
-        console.log(notif.type);
         if (notif.type === 'TEXT_NOTIFICATION') {
             return (
                 <ListItem>
@@ -68,8 +67,6 @@ class NotificationView extends React.Component {
     }
 
     render() {
-        console.log("User Id is " + this.props.userId);
-        console.log(this.state.notificationList);
         
         if (this.state.notificationList != null)
         {

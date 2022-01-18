@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link, Route } from "react-router-dom";
-import DeviceSelectionPage from './DeviceSelectionPage';
+import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import PersonIcon from '@mui/icons-material/Person';
