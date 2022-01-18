@@ -3,7 +3,7 @@ package com.backend.DataAcquisitionObjects;
 import java.util.List;
 
 import com.backend.Models.DeviceNotificationMethods;
-import com.backend.Repositories.DeviceNotificationMethodRepository;
+import com.backend.Repositories.EntityDataRepositories.DeviceNotificationMethodRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

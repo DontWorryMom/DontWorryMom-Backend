@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.backend.Models.Notification;
-import com.backend.Repositories.NotificationRepository;
+import com.backend.Repositories.EntityDataRepositories.NotificationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -5,8 +5,8 @@ import java.util.List;
 import com.backend.Models.CrashDetected;
 import com.backend.Models.Device;
 import com.backend.Models.Location;
-import com.backend.Repositories.CrashDetectedRepository;
-import com.backend.Repositories.LocationRepository;
+import com.backend.Repositories.EntityDataRepositories.CrashDetectedRepository;
+import com.backend.Repositories.EntityDataRepositories.LocationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

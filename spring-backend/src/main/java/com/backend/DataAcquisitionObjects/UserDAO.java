@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.backend.Models.User;
-import com.backend.Repositories.UserRepository;
+import com.backend.Repositories.EntityDataRepositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

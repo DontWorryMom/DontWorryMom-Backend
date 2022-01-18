@@ -1,4 +1,4 @@
-package com.backend.Repositories;
+package com.backend.Repositories.EntityDataRepositories;
 
 import com.backend.Models.User;
 
