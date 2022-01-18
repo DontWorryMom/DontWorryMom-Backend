@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.backend.Models.CrashDetectedNotification;
 import com.backend.Models.CrashDetectedNotificationId;
 import com.backend.Models.NotificationStatus;
-import com.backend.Repositories.CrashDetectedNotificationRepository;
+import com.backend.Repositories.EntityDataRepositories.CrashDetectedNotificationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

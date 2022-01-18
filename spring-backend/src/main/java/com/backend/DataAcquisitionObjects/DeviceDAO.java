@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.backend.Models.User;
+import com.backend.Repositories.EntityDataRepositories.DeviceRepository;
 import com.backend.Models.Device;
-import com.backend.Repositories.DeviceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
