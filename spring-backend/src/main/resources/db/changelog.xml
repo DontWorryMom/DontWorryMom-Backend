@@ -83,5 +83,12 @@
     );
     </sql>
     </changeSet> 
+      
+    <changeSet id="2" author="willsunnn">
+    <sql>
+    alter table device add secondary_id text;
+    alter table device add unique (secondary_id);
+    </sql>
+    </changeSet> 
 
 </databaseChangeLog>

@@ -15,6 +15,12 @@ public class DontWorryMomException extends Exception {
 		this.statusCode = statusCode;
 		this.reasons = reasons;
 	}
+
+	public DontWorryMomException(int statusCode, String reason) {
+		super();
+		this.statusCode = statusCode;
+		this.reasons = List.of(reason);
+	}
 	
 	public DontWorryMomException(String reason) {
 		super();
