@@ -19,7 +19,8 @@ class LocationView extends React.Component {
             time: null,
             lat: null,
             long: null,
-            initialized: false
+            initialized: false,
+            renderMap: false
           }
         
         this.initialize_state = this.initialize_state.bind(this);
@@ -121,6 +122,7 @@ class LocationView extends React.Component {
                 </div>
 
                 <div style={{height: '50vh', width: '100%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
+                { this.state.renderMap &&
                 <GoogleMapReact
                     bootstrapURLKeys= {{key: config.GOOGLE_MAPS_API_KEY}}
                     defaultCenter={coords}
@@ -132,6 +134,7 @@ class LocationView extends React.Component {
                 >
 
                 </GoogleMapReact>
+                }
                 </div>
                 
 
