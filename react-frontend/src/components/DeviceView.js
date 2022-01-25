@@ -31,7 +31,7 @@ class DeviceView extends React.Component {
         // get a callback when the server responds
         locs.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(locs.responseText);
+          //console.log(locs.responseText);
           const locations = JSON.parse(locs.responseText).results;
           this.setState({locationList: locations})
           this.setState({dataReady: true});

@@ -4,6 +4,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 var config = require("../Config").config;
 
 class NotificationView extends React.Component {
@@ -11,9 +14,14 @@ class NotificationView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            notificationList: null
+            notificationList: null,
+            anchorEl: null,
+            menu: false
         }
-        
+        this.notifEdit = React.createRef();
+        this.print_notif = this.print_notif.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.closeMenu = this.closeMenu.bind(this);
     }
 
     componentDidMount() { 
@@ -45,6 +53,7 @@ class NotificationView extends React.Component {
                 <ListItem>
                     <PhoneIphoneIcon />
                     <ListItemText primary={notif.phoneNumber} />
+                    <MoreVertIcon ref={this.notifEdit} onClick={this.handleClick} style={{cursor:'pointer'}} />
                 </ListItem>
             )
         }
@@ -53,6 +62,7 @@ class NotificationView extends React.Component {
                 <ListItem>
                     <EmailIcon />
                     <ListItemText primary={notif.email} />
+                    <MoreVertIcon ref={this.notifEdit} onClick={this.handleClick} style={{cursor:'pointer'}} />
                 </ListItem>
             )
         }
@@ -66,6 +76,17 @@ class NotificationView extends React.Component {
         
     }
 
+    handleClick() {
+        console.log("Edit function called")
+        this.setState({menu: true})
+        this.setState({anchorEl: this.notifEdit.current})
+    }
+
+    closeMenu() {
+        this.setState({menu: false})
+        this.setState({anchorEl: null})
+    }
+
     render() {
         
         if (this.state.notificationList != null)
@@ -75,6 +96,24 @@ class NotificationView extends React.Component {
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         {this.state.notificationList.map(this.print_notif)}
                     </List>
+                    <Menu
+                        id="test"
+                        aria-labelledby="test"
+                        anchorEl={this.state.anchorEl}
+                        open={this.state.menu}
+                        onClose={this.closeMenu}
+                        anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                        }}
+                    >
+                        <MenuItem onClick={this.closeMenu}>Edit</MenuItem>
+                        <MenuItem onClick={this.closeMenu}>Remove</MenuItem>
+                    </Menu>
                 </div>
                 
             )
