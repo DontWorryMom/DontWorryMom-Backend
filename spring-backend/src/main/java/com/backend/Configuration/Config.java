@@ -1,7 +1,9 @@
 package com.backend.Configuration;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 public class Config {
@@ -16,22 +18,25 @@ public class Config {
 
 	public final static Double ACCELEROMETER_CRASH_THRESHOLD = Double.parseDouble(ENVIRONMENT_VARIABLES.get("ACCELEROMETER_CRASH_THRESHOLD")); 
 
+	public final static String SPRING_ADMIN_USER_NAME = ENVIRONMENT_VARIABLES.get("SPRING_ADMIN_USER_NAME");
+	public final static String SPRING_ADMIN_USER_PASSWORD = ENVIRONMENT_VARIABLES.get("SPRING_ADMIN_USER_PASSWORD");
+
 	static {
 		printConfig();
 	}
 
 	public static void printConfig() {		
-		Map<String,Object> configVariables = new HashMap<>();
-		configVariables.put("twilio-account-sid", TWILIO_ACCOUNT_SID);
-		configVariables.put("twilio-auth-token", TWILIO_AUTH_TOKEN);
-		configVariables.put("twilio-from-number", TWILIO_FROM_NUMBER);
-		configVariables.put("sendgrid-api-key", SENDGRID_API_KEY);
-		configVariables.put("sendgrid-email-address", SENDGRID_EMAIL_ADDRESS);
-		configVariables.put("accelerometer-crash-threshold", ACCELEROMETER_CRASH_THRESHOLD);
+		printConfig("twilio-account-sid", TWILIO_ACCOUNT_SID);
+		printConfig("twilio-auth-token", TWILIO_AUTH_TOKEN);
+		printConfig("twilio-from-number", TWILIO_FROM_NUMBER);
+		printConfig("sendgrid-api-key", SENDGRID_API_KEY);
+		printConfig("sendgrid-email-address", SENDGRID_EMAIL_ADDRESS);
+		printConfig("accelerometer-crash-threshold", ACCELEROMETER_CRASH_THRESHOLD);
+		printConfig("spring-admin-user-name", SPRING_ADMIN_USER_NAME);
+		printConfig("spring-admin-user-password", SPRING_ADMIN_USER_PASSWORD);
+	}
 
-		System.out.println("Service starting with config values:");
-		for(Entry<String,Object> entry: configVariables.entrySet()) {
-			System.out.println(String.format("\t%s = \'%s\'", entry.getKey(), entry.getValue()));
-		}
+	public static <T> void printConfig(String varName, T value) {
+		System.out.println(String.format("\t%s = \'%s\'", varName, value));
 	}
 }

@@ -90,5 +90,12 @@
     alter table device add unique (secondary_id);
     </sql>
     </changeSet> 
+      
+    <changeSet id="3" author="willsunnn">
+    <sql>
+    alter table users add encrypted_password text;
+    alter table users alter column encrypted_password set not null;
+    </sql>
+    </changeSet> 
 
 </databaseChangeLog>

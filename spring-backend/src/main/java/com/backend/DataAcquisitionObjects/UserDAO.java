@@ -32,6 +32,15 @@ public class UserDAO {
 		}
 	}
 
+	public User getUserByName(String username) {
+		Optional<User> user = userRepository.findByUsername(username);
+		if(user.isPresent()) {
+			return user.get();
+		} else {
+			return null;
+		}
+	}
+
 	public User createUser(User user) {
 		return userRepository.save(user);
 	}

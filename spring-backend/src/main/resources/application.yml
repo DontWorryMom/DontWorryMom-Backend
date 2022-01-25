@@ -1,6 +1,11 @@
 server:
   port: ${PORT}
 
+security:
+  user:
+    name: ${SPRING_ADMIN_USER_NAME}
+    password: ${SPRING_ADMIN_USER_PASSWORD}
+
 spring:
   datasource:
     url: ${DB_URL}
