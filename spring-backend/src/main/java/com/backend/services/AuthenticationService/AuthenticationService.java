@@ -5,8 +5,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.backend.Configuration.Config;
 import com.backend.DataAcquisitionObjects.UserDAO;
 import com.backend.Models.User;
+import com.backend.Models.UserDetailsRootUser;
 import com.backend.Models.UserDetailsWrapper;
 import com.backend.util.DontWorryMomException;
 
@@ -31,10 +33,12 @@ public class AuthenticationService
 	implements UserDetailsService {
 
 	UserDAO userDAO;
+	UserDetailsRootUser rootUser;
 
 	@Autowired
-	public AuthenticationService(UserDAO userDAO) {
+	public AuthenticationService(UserDAO userDAO, UserDetailsRootUser rootUser) {
 		this.userDAO = userDAO;
+		this.rootUser = rootUser;
 	}
 
 	/*
@@ -43,7 +47,13 @@ public class AuthenticationService
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		if(username.equals(Config.SPRING_ADMIN_USER_NAME)) {
+			return rootUser;
+		}
 		User activeUser = userDAO.getUserByName(username);
+		if(activeUser == null) {
+			throw new UsernameNotFoundException("user not found with username "+username);
+		}
 		return new UserDetailsWrapper(activeUser);
 	}
 

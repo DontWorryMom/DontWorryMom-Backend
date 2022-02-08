@@ -3,22 +3,17 @@ package com.backend.Models;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.backend.Configuration.Config;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
-public class UserDetailsWrapper implements UserDetails {
-
-	User user;
-
-	public UserDetailsWrapper(User user) {
-		this.user = user;
-	}
-	
-	/*
-	 * Methods for overriding Spring's UserDetails
-	 * these functions are used by Spring for authentication
-	 */
+@Component
+public class UserDetailsRootUser implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -29,12 +24,14 @@ public class UserDetailsWrapper implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.user.username;
+		return Config.SPRING_ADMIN_USER_NAME;
 	}
 
 	@Override
 	public String getPassword() {
-		return this.user.encrypted_password;
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encrypted_password = encoder.encode(Config.SPRING_ADMIN_USER_PASSWORD);
+		return encrypted_password;
 	}
 
 	@Override

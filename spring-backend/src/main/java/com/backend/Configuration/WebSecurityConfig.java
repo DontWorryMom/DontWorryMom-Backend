@@ -1,8 +1,5 @@
 package com.backend.Configuration;
 
-import javax.sql.DataSource;
-
-import com.backend.DataAcquisitionObjects.UserDAO;
 import com.backend.services.AuthenticationService.AuthenticationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(authenticationService);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		authProvider.setPasswordEncoder(encoder);
 		return authProvider;
 	}
 
@@ -39,11 +40,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-			.anyRequest().permitAll()
-			.and()
-			.formLogin().loginProcessingUrl("/userAuth")
-			.and()
+		http
+			.formLogin()
+				.loginProcessingUrl("/login")
+				.and()
+			.logout()
+				.logoutUrl("/logout")
+				.and()
+			.authorizeRequests()
+				.antMatchers("/login").permitAll()
+				.antMatchers("/logout").permitAll()
+				.antMatchers("/users").permitAll()
+				.anyRequest().authenticated()
+				.and()
 			.csrf().disable();
 	}
 	
