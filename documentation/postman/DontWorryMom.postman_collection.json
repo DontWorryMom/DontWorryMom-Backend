@@ -51,7 +51,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"username\": \"test\"\r\n}",
+							"raw": "{\r\n\"username\": \"test\",\r\n\"password\": \"password\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -462,7 +462,35 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"locationLat\": 33.669445,\r\n    \"locationLon\": 119.4179,\r\n    \"maxAcceleration\": 9.7\r\n}",
+							"raw": "{\r\n    \"locationLat\": 33.648488,\r\n    \"locationLon\": -117.836671,\r\n    \"maxAcceleration\": 9.7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/locations/deviceId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"locations",
+								"deviceId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Crash Detected",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"locationLat\": 33.669445,\r\n    \"locationLon\": 119.4179,\r\n    \"maxAcceleration\": 9.9\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -558,6 +586,109 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "CrashDetectedNotifications",
+			"item": [
+				{
+					"name": "Get All Crash Detected Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/crashDetectedNotification",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"crashDetectedNotification"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login Root",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{SPRING_ADMIN_USERNAME}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{SPRING_ADMIN_PASSWORD}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SPRING_BASE_URL}}/login",
+					"host": [
+						"{{SPRING_BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SPRING_BASE_URL}}/login",
+					"host": [
+						"{{SPRING_BASE_URL}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{SPRING_BASE_URL}}/logout",
+					"host": [
+						"{{SPRING_BASE_URL}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
