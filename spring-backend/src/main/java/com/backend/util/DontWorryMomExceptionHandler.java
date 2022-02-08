@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DontWorryMomExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(value={DontWorryMomException.class})
+	@ExceptionHandler(value={DontWorryMomException.class, UnauthorizedAccessException.class})
 	protected ResponseEntity<ResponseWrapper<Object>> handleDontWorryMomException(DontWorryMomException e, WebRequest wr) {
 		ResponseWrapper<Object> body = ResponseWrapper.failureResponse(e.reasons);
 		return new ResponseEntity<ResponseWrapper<Object>>(

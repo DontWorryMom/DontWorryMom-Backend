@@ -1,8 +1,5 @@
 package com.backend.Models;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,15 +10,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name="users")
@@ -40,6 +35,7 @@ public class User {
 	String username;
 
 	@JsonIgnore				// this prevents the salted password from being shown in JSON representation
+	@ToString.Exclude
 	@Column(name="encrypted_password")
 	String encrypted_password;
 
@@ -47,10 +43,8 @@ public class User {
 	// that the encrypted_password field will be set
 	@JsonSetter("password")
 	public void setPassword(String password) {
-		System.out.println("rawpw = "+password);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		this.encrypted_password = encoder.encode(password);
-		System.out.println("encryptedpw = "+this.encrypted_password);
 	}
 
 	public void assign(User pUser) {

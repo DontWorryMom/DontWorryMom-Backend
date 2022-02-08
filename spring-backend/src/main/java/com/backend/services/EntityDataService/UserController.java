@@ -4,12 +4,15 @@ import java.util.Collections;
 import java.util.List;
 
 import com.backend.Models.User;
+import com.backend.util.DontWorryMomException;
+import com.backend.util.UnauthorizedAccessException;
 import com.backend.Models.ResponseWrapper;
 import com.backend.DataAcquisitionObjects.UserDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("users")
-public class UserController {
+public class UserController extends BaseController {
 	// CRUD Interface for User Entity
 
 	UserDAO userDAO;
@@ -54,7 +57,12 @@ public class UserController {
 	}
 
 	@GetMapping("/userId/{userId}") 
-	public ResponseEntity<ResponseWrapper<User>> getUserById(@PathVariable("userId") long userId) {
+	public ResponseEntity<ResponseWrapper<User>> getUserById(@PathVariable("userId") long userId) throws UnauthorizedAccessException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToUser(principal, userId);
+
+		// serve the requested resource
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(userDAO.getUserById(userId)), 
 			HttpStatus.OK);
@@ -65,15 +73,17 @@ public class UserController {
 	 */
 
 	@PutMapping("/userId/{userId}")
-	public ResponseEntity<ResponseWrapper<User>> updateUserById(@PathVariable("userId") long userId, @RequestBody User user) {
-		// invalid request because given parameters violate constraints
+	public ResponseEntity<ResponseWrapper<User>> updateUserById(@PathVariable("userId") long userId, @RequestBody User user) throws UnauthorizedAccessException, DontWorryMomException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToUser(principal, userId);
+
+		// invalidate request if given parameters violate constraints
 		if(user.getUserId() != userId) {
-			return new ResponseEntity<>(
-				ResponseWrapper.failureResponse(
-					Collections.singletonList("userId in path variable ("+userId+") must match userId in PUT request body ("+user.getUserId()+")")), 
-				HttpStatus.BAD_REQUEST);
+			throw new DontWorryMomException(HttpStatus.BAD_REQUEST.value(), "userId in path variable ("+userId+") must match userId in PUT request body ("+user.getUserId()+")");
 		} 
 
+		// update the user model since everything is valid
 		User updatedUser = userDAO.updateUser(user);
 		if(updatedUser == null) {
 			// invalid request because user cannot be updated as user does not exist
@@ -94,7 +104,12 @@ public class UserController {
 	 */
 
 	@DeleteMapping("/userId/{userId}")
-	public ResponseEntity<ResponseWrapper<Boolean>> deleteUserById(@PathVariable("userId") long userId) {
+	public ResponseEntity<ResponseWrapper<Boolean>> deleteUserById(@PathVariable("userId") long userId) throws UnauthorizedAccessException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToUser(principal, userId);
+
+		// delete the user since we have checked the authorization
 		userDAO.deleteUser(userId);
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(true),

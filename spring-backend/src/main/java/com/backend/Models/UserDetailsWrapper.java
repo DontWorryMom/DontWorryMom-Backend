@@ -14,6 +14,10 @@ public class UserDetailsWrapper implements UserDetails {
 	public UserDetailsWrapper(User user) {
 		this.user = user;
 	}
+
+	public User getUser() {
+		return this.user;
+	}
 	
 	/*
 	 * Methods for overriding Spring's UserDetails

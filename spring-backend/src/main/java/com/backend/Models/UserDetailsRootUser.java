@@ -18,7 +18,8 @@ public class UserDetailsRootUser implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return Arrays.asList(
-			new SimpleGrantedAuthority("user")
+			new SimpleGrantedAuthority("user"),
+			new SimpleGrantedAuthority("admin")
 		);
 	}
 

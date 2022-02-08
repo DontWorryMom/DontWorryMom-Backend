@@ -18,6 +18,10 @@ public class ResponseWrapper <T> {
 		return new ResponseWrapper<T>(result, Collections.emptyList(), true);
 	}
 
+	public static <T> ResponseWrapper<T> failureResponse(String error) {
+		return new ResponseWrapper<T>(null, List.of(error), false);
+	}
+
 	public static <T> ResponseWrapper<T> failureResponse(List<String> errorList) {
 		return new ResponseWrapper<T>(null, errorList, false);
 	}
