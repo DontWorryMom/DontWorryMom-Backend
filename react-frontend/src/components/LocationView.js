@@ -4,13 +4,6 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 var config = require("../Config").config;
 
-const styles = {
-    center: {
-      marginLeft: "auto",
-      marginRight: "auto",
-    }
-  }
-
 class LocationView extends React.Component {
     //props.locations is locations JSON object
     constructor(props) {

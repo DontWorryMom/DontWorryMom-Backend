@@ -7,6 +7,15 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 var config = require("../Config").config;
 
 class NotificationView extends React.Component {
@@ -16,7 +25,10 @@ class NotificationView extends React.Component {
         this.state = {
             notificationList: null,
             anchorEl: null,
-            menu: false
+            menu: false,
+
+            post_notif_type: "Email",
+            post_notif_content: null
         }
         this.notifEdit = React.createRef();
         this.print_notif = this.print_notif.bind(this);
@@ -36,7 +48,6 @@ class NotificationView extends React.Component {
         // get a callback when the server responds
         notifs.addEventListener('load', () => {
           // update the state of the component with the result here
-          console.log(notifs.responseText);
           const notifications = JSON.parse(notifs.responseText).results;
           this.setState({notificationList: notifications})
         })
@@ -73,6 +84,52 @@ class NotificationView extends React.Component {
                 </ListItem>
             )
         }
+        
+    }
+
+    handleRadioChange = event => {
+        this.setState({post_notif_type: event.target.value})
+    }
+    handleTextChange = event => {
+        this.setState({post_notif_content: event.target.value.toString()})
+    }
+
+    // helper function to create a notification
+    create_notif = event => {
+
+        // create a new XMLHttpRequest
+        var notif = new XMLHttpRequest()
+
+        // open the request with the verb and the url
+        notif.open('POST', config.SPRING_BACKEND_FULL_URL + `/notifications/userId/${this.props.userId}`)
+        notif.setRequestHeader("Content-Type", "application/json");
+        // send the request
+        if (this.state.post_notif_type === "Email") {
+            notif.send(
+                JSON.stringify({
+                    type:"EMAIL_NOTIFICATION",
+                    email: this.state.post_notif_content
+                })
+            )
+        }
+        else {
+            notif.send(
+                JSON.stringify({
+                    type:"TEXT_NOTIFICATION",
+                    phoneNumber: this.state.post_notif_content
+                })
+            )
+        }
+
+        // get a callback when the server responds
+        notif.addEventListener('load', () => {
+            // update the state of the component with the result here
+            const create_notif_response = JSON.parse(notif.responseText).results;
+            var new_notif = this.state.notificationList.concat(create_notif_response)
+            this.setState({notificationList: new_notif})
+        })
+        
+        
         
     }
 
@@ -114,6 +171,36 @@ class NotificationView extends React.Component {
                         <MenuItem onClick={this.closeMenu}>Edit</MenuItem>
                         <MenuItem onClick={this.closeMenu}>Remove</MenuItem>
                     </Menu>
+
+                    <form>
+                        <FormControl >
+                            <FormLabel id="add-notification">Type</FormLabel>
+                            <RadioGroup
+                                aria-labelledby="notification-type"
+                                name="notification-type"
+                                value={this.state.post_notif_type}
+                                onChange={this.handleRadioChange}
+                            >
+                                <FormControlLabel value="Email" control={<Radio />} label="Email" />
+                                <FormControlLabel value="Phone Number" control={<Radio />} label="Phone Number" />
+                            </RadioGroup>
+
+                            <TextField 
+                                id="standard-basic" 
+                                label="Add Notification" 
+                                required 
+                                variant="standard" 
+                                helperText="required field"
+                                onChange={this.handleTextChange} 
+                            />
+
+                            <Button onClick={this.create_notif} sx={{ mt: 1, mr: 1 }} variant="outlined">
+                                Add
+                            </Button>
+
+                        </FormControl>
+                    </form>
+
                 </div>
                 
             )
