@@ -48,8 +48,18 @@ public class User {
 	}
 
 	public void assign(User pUser) {
+		assign(pUser, false);
+	}
+
+	public void assign(User pUser, boolean assignNulls) {
 		// this method copies variables from pUser into this
 		// this is used to update the user in the repository
-		this.username = pUser.username;
+		if(pUser.username != null || assignNulls) {
+			this.username = pUser.username;
+		}
+		if(pUser.encrypted_password != null || assignNulls) {
+			this.encrypted_password = pUser.encrypted_password;
+		}
+
 	}
 }

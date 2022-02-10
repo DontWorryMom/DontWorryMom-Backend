@@ -85,6 +85,7 @@
     </changeSet> 
       
     <changeSet id="2" author="willsunnn">
+    <!-- adds a secondary device id for all devices -->
     <sql>
     alter table device add secondary_id text;
     alter table device add unique (secondary_id);
@@ -92,9 +93,13 @@
     </changeSet> 
       
     <changeSet id="3" author="willsunnn">
+    <!-- 
+    adds a password column for users
+    the password for all existing users is 'password'
+    -->
     <sql>
-    alter table users add encrypted_password text;
-    alter table users alter column encrypted_password set not null;
+    alter table users add encrypted_password text not null
+        default '$2a$10$d9/AdSUYNX7vnufMQx6O/uiYWMnPv4GlJTIHjMHb/kns5xOzjgONi';
     </sql>
     </changeSet> 
 
