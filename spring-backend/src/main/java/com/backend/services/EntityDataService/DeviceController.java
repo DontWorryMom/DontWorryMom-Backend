@@ -5,11 +5,14 @@ import java.util.List;
 
 import com.backend.Models.Device;
 import com.backend.Models.ResponseWrapper;
+import com.backend.util.DontWorryMomException;
+import com.backend.util.UnauthorizedAccessException;
 import com.backend.DataAcquisitionObjects.DeviceDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("devices")
-public class DeviceController {
+public class DeviceController extends BaseController {
 	// CRUD Interface for Device Entity
 
 	DeviceDAO deviceDAO;
@@ -36,9 +39,15 @@ public class DeviceController {
 	 */
 
 	@PostMapping("")
-	public ResponseEntity<ResponseWrapper<Device>> createDevice(@RequestBody Device device) {
+	public ResponseEntity<ResponseWrapper<Device>> createDevice(@RequestBody Device device) throws UnauthorizedAccessException {
+		// check the user has access to add a device to the account
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToUser(principal, device.getUserId());
+
+		// create the device for that user
+		Device createdDevice = deviceDAO.createDevice(device);
 		return new ResponseEntity<>(
-			ResponseWrapper.successResponse(deviceDAO.createDevice(device)), 
+			ResponseWrapper.successResponse(createdDevice), 
 			HttpStatus.CREATED);
 	}
 	
@@ -47,21 +56,38 @@ public class DeviceController {
 	 */
 
 	@GetMapping("") 
-	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceList() {
+	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceList() throws UnauthorizedAccessException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkRootUser(principal);
+		
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(deviceDAO.getAllDevices()), 
 			HttpStatus.OK);
 	}
 
 	@GetMapping("/deviceId/{deviceId}") 
-	public ResponseEntity<ResponseWrapper<Device>> getDeviceById(@PathVariable("deviceId") long deviceId) {
+	public ResponseEntity<ResponseWrapper<Device>> getDeviceById(@PathVariable("deviceId") long deviceId) throws UnauthorizedAccessException {
+		// retrieve the device
+		Device device = deviceDAO.getDeviceById(deviceId);
+
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToDevice(principal, device);
+
+		// return the device
 		return new ResponseEntity<>(
-			ResponseWrapper.successResponse(deviceDAO.getDeviceById(deviceId)), 
+			ResponseWrapper.successResponse(device), 
 			HttpStatus.OK);
 	}
 
 	@GetMapping("/userId/{userId}") 
-	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceByUserId(@PathVariable("userId") long userId) {
+	public ResponseEntity<ResponseWrapper<List<Device>>> getDeviceByUserId(@PathVariable("userId") long userId) throws UnauthorizedAccessException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToUser(principal, userId);
+		
+		// return the devices
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(deviceDAO.getAllDevicesFromUser(userId)), 
 			HttpStatus.OK);
@@ -72,22 +98,40 @@ public class DeviceController {
 	 */
 
 	@PutMapping("/deviceId/{deviceId}")
-	public ResponseEntity<ResponseWrapper<Device>> updateDeviceById(@PathVariable("deviceId") long deviceId, @RequestBody Device device) {
+	public ResponseEntity<ResponseWrapper<Device>> updateDeviceById(@PathVariable("deviceId") long deviceId, @RequestBody Device device) throws UnauthorizedAccessException, DontWorryMomException {
 		// invalid request because given parameters violate constraints
 		if(device.getDeviceId() != deviceId) {
-			return new ResponseEntity<>(
-				ResponseWrapper.failureResponse(
-					Collections.singletonList("DeviceId in path variable ("+deviceId+") must match DeviceId in PUT request body ("+device.getDeviceId()+")")), 
-				HttpStatus.BAD_REQUEST);
-		} 
+			throw new DontWorryMomException(
+				HttpStatus.BAD_REQUEST.value(),
+				"DeviceId in path variable ("+deviceId+") must match DeviceId in PUT request body ("+device.getDeviceId()+")"
+			);
+		}
 
+		// check that the device exists
+		Device requestedDevice = deviceDAO.getDeviceById(deviceId);
+		if(requestedDevice == null) {
+			throw new DontWorryMomException(
+				HttpStatus.BAD_REQUEST.value(),
+				"Was unable to find Device with DeviceId ("+deviceId+")"	
+			);
+		}
+
+		// check the user has access to the requested device
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToDevice(principal, requestedDevice);
+		
+		// if the device ownership is being changed, the user needs access to the other account as well
+		// currently only the root user has access to multiple acccounts and can change the userId
+		this.checkAccessToUser(principal, device.getUserId());
+
+		// update the device
 		Device updatedDevice = deviceDAO.updateDevice(device);
 		if(updatedDevice == null) {
 			// invalid request because Device cannot be updated as Device does not exist
-			return new ResponseEntity<>(
-				ResponseWrapper.failureResponse(
-					Collections.singletonList("Was unable to find Device with DeviceId ("+deviceId+")")), 
-				HttpStatus.BAD_REQUEST);
+			throw new DontWorryMomException(
+				HttpStatus.BAD_REQUEST.value(),
+				"Was unable to find Device with DeviceId ("+deviceId+")"	
+			);
 		} else {
 			// success response
 			return new ResponseEntity<>(
@@ -101,7 +145,21 @@ public class DeviceController {
 	 */
 
 	@DeleteMapping("/deviceId/{deviceId}")
-	public ResponseEntity<ResponseWrapper<Boolean>> deleteDeviceById(@PathVariable("deviceId") long deviceId) {
+	public ResponseEntity<ResponseWrapper<Boolean>> deleteDeviceById(@PathVariable("deviceId") long deviceId) throws DontWorryMomException {
+		// check that the device exists
+		Device requestedDevice = deviceDAO.getDeviceById(deviceId);
+		if(requestedDevice == null) {
+			throw new DontWorryMomException(
+				HttpStatus.BAD_REQUEST.value(),
+				"Was unable to find Device with DeviceId ("+deviceId+")"	
+			);
+		}
+
+		// check the user has access to the requested device
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkAccessToDevice(principal, requestedDevice);
+
+		// delete the device
 		deviceDAO.deleteDevice(deviceId);
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(true),

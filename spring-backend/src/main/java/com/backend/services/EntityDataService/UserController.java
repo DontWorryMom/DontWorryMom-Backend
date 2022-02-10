@@ -50,7 +50,11 @@ public class UserController extends BaseController {
 	 */
 
 	@GetMapping("") 
-	public ResponseEntity<ResponseWrapper<List<User>>> getUserList() {
+	public ResponseEntity<ResponseWrapper<List<User>>> getUserList() throws UnauthorizedAccessException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.checkRootUser(principal);
+
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(userDAO.getAllUsers()), 
 			HttpStatus.OK);

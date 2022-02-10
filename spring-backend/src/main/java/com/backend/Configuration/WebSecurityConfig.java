@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -61,6 +60,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/users/userId/*").authenticated()			// only signed in users can see their details
 				.antMatchers(HttpMethod.PUT, "/users/userId/*").authenticated()			// only signed in users can update their details
 				.antMatchers(HttpMethod.DELETE, "/users/userId/*").authenticated()		// only signed in users can delete their details
+
+				// devices endpoints
+				.antMatchers(HttpMethod.POST, "/devices").authenticated()				// only signed in users can add a device
+				.antMatchers(HttpMethod.GET, "/devices").hasAnyAuthority("admin")		// only admins can see the whole list of devices
+				.antMatchers(HttpMethod.GET, "/devices/deviceId/*").authenticated()		// only signed in users can see their devices
+				.antMatchers(HttpMethod.GET, "/devices/userId/*").authenticated()		// only signed in users can see their devices
+				.antMatchers(HttpMethod.PUT, "/devices/deviceId/*").authenticated()		// only signed in users can update their devices
+				.antMatchers(HttpMethod.DELETE, "/devices/deviceId/*").authenticated()	// only signed in users can delete their devices
 
 				// remaining requests (just secure them in case we forgot anything)
 				.anyRequest().permitAll()

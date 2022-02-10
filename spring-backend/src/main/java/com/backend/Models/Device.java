@@ -40,8 +40,8 @@ public class Device {
 	String secondaryId;
 
 	public void assign(Device pDevice) {
-		// this method copies variables from pUser into this
-		// this is used to update the user in the repository
+		// this method copies variables from pDevice into this
+		// this is used to update the device in the repository
 		this.userId = pDevice.userId;
 		this.secondaryId = pDevice.secondaryId;
 	}

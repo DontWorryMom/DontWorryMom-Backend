@@ -1,10 +1,6 @@
 package com.backend.Configuration;
 
-import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
 public class Config {
 	private static final Map<String,String> ENVIRONMENT_VARIABLES = System.getenv(); 
