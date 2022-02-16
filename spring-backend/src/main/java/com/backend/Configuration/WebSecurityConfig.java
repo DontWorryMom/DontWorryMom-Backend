@@ -80,8 +80,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/locations").hasAnyAuthority("admin")		// only admins can see the whole list of locations
 				.antMatchers(HttpMethod.GET, "/deviceId/*").authenticated()				// only signed in users can see their locations
 
-				// remaining requests (just secure them in case we forgot anything)
-				.anyRequest().permitAll()
+				// CrashDetectedNotifications endpoints
+				.antMatchers(HttpMethod.GET, "/crashDetectedNotification").hasAnyAuthority("admin")	// only admins can see the whole list of crash detected notifications
+
+				// DeviceNotificationMethods endpoints
+				.antMatchers(HttpMethod.POST, "/deviceNotificationMethods").authenticated()					// only logged in users can add device notification methods
+				.antMatchers(HttpMethod.GET, "/deviceNotificationMethods").hasAnyAuthority("admin")			// only admins can see the whole list of Device Notification Methods
+				.antMatchers(HttpMethod.GET, "/deviceNotificationMethods/deviceId/*").authenticated()		// only signed in users can see their device's notification methods
+				.antMatchers(HttpMethod.DELETE, "/deviceNotificationMethods").authenticated()				// only logged in users can delete device notification methods
+
+				// remaining requests (just block them in case we forgot anything)
+				.anyRequest().hasAnyAuthority("admin")
 				.and()
 			.csrf()
 				.disable();
