@@ -26,6 +26,24 @@
 					"response": []
 				},
 				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/users/currentUser",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"users",
+								"currentUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get User by User Id",
 					"request": {
 						"method": "GET",
@@ -528,6 +546,25 @@
 							],
 							"path": [
 								"deviceNotificationMethods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Device Notification Methods by Device Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SPRING_BASE_URL}}/deviceNotificationMethods/deviceId/1",
+							"host": [
+								"{{SPRING_BASE_URL}}"
+							],
+							"path": [
+								"deviceNotificationMethods",
+								"deviceId",
+								"1"
 							]
 						}
 					},

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.backend.Models.User;
+import com.backend.Models.UserDetailsWrapper;
 import com.backend.util.DontWorryMomException;
 import com.backend.util.ResourceAccessChecker;
 import com.backend.util.UnauthorizedAccessException;
@@ -61,6 +62,25 @@ public class UserController {
 		return new ResponseEntity<>(
 			ResponseWrapper.successResponse(userDAO.getAllUsers()), 
 			HttpStatus.OK);
+	}
+
+	@GetMapping("/currentUser") 
+	public ResponseEntity<ResponseWrapper<User>> getCurrentUser() throws DontWorryMomException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetailsWrapper) {
+			UserDetailsWrapper userDetails = (UserDetailsWrapper) principal;
+			return new ResponseEntity<>(
+				ResponseWrapper.successResponse(userDetails.getUser()),
+				HttpStatus.OK
+			);
+		} 
+
+		throw new DontWorryMomException(
+			HttpStatus.BAD_REQUEST.value(),
+			"You must be logged in as a user to access this endpoint"
+		);
 	}
 
 	@GetMapping("/userId/{userId}") 

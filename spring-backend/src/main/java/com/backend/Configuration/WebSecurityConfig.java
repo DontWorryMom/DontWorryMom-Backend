@@ -57,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// users endpoints
 				.antMatchers(HttpMethod.POST, "/users").permitAll()						// anyone can create an account
 				.antMatchers(HttpMethod.GET, "/users").hasAnyAuthority("admin")			// only admins can see the whole list of users
+				.antMatchers(HttpMethod.GET, "/users/currentUser").authenticated()		// only signed in users can see their details
 				.antMatchers(HttpMethod.GET, "/users/userId/*").authenticated()			// only signed in users can see their details
 				.antMatchers(HttpMethod.PUT, "/users/userId/*").authenticated()			// only signed in users can update their details
 				.antMatchers(HttpMethod.DELETE, "/users/userId/*").authenticated()		// only signed in users can delete their details
