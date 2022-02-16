@@ -75,6 +75,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/notifications/userId/*").authenticated()				// only signed in users can see their notifications
 				.antMatchers(HttpMethod.GET, "/notifications/notificationId/*").authenticated()		// only signed in users can see their notifications
 
+				// locations endpoints
+				.antMatchers(HttpMethod.POST, "/locations/deviceId/*").permitAll()		// devices cannot sign in to send data
+				.antMatchers(HttpMethod.GET, "/locations").hasAnyAuthority("admin")		// only admins can see the whole list of locations
+				.antMatchers(HttpMethod.GET, "/deviceId/*").authenticated()				// only signed in users can see their locations
+
 				// remaining requests (just secure them in case we forgot anything)
 				.anyRequest().permitAll()
 				.and()

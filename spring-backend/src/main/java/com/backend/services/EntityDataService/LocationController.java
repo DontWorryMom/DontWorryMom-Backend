@@ -2,25 +2,25 @@ package com.backend.services.EntityDataService;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
-
 import com.backend.Models.CrashDetected;
 import com.backend.Models.Device;
 import com.backend.Models.Location;
 import com.backend.Models.ResponseWrapper;
 import com.backend.util.DontWorryMomException;
 import com.backend.util.LocationToNotificationProcessor;
+import com.backend.util.ResourceAccessChecker;
+import com.backend.util.UnauthorizedAccessException;
 import com.backend.DataAcquisitionObjects.DeviceDAO;
 import com.backend.DataAcquisitionObjects.LocationDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,12 +32,18 @@ public class LocationController {
 	DeviceDAO deviceDAO;
 	LocationDAO locationDAO;
 	LocationToNotificationProcessor locationToNotificationProcessor;
+	ResourceAccessChecker resourceAccessChecker;
 
 	@Autowired
-	public LocationController(LocationDAO locationDAO, DeviceDAO deviceDAO, LocationToNotificationProcessor locNotifProcessor) {
+	public LocationController(
+			LocationDAO locationDAO, 
+			DeviceDAO deviceDAO, 
+			LocationToNotificationProcessor locNotifProcessor, 
+			ResourceAccessChecker resourceAccessChecker) {
 		this.locationDAO = locationDAO;
 		this.deviceDAO = deviceDAO;
 		this.locationToNotificationProcessor = locNotifProcessor;
+		this.resourceAccessChecker = resourceAccessChecker;
 	}
 	
 	/*
@@ -98,8 +104,11 @@ public class LocationController {
 
 	@GetMapping("") 
 	public ResponseEntity<ResponseWrapper<List<? extends Location>>> getLocations(
-			@RequestParam(name="onlyCrashes", defaultValue="false") boolean onlyShowCrashes) {
-		
+			@RequestParam(name="onlyCrashes", defaultValue="false") boolean onlyShowCrashes) throws UnauthorizedAccessException {
+		// check the user has root user access
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.resourceAccessChecker.checkRootUser(principal);
+
 		List<? extends Location> results;
 		if(onlyShowCrashes) {
 			results = locationDAO.getAllCrashDetecteds();
@@ -114,7 +123,10 @@ public class LocationController {
 	@GetMapping("/deviceId/{deviceId}") 
 	public ResponseEntity<ResponseWrapper<List<? extends Location>>> getLocationsByDeviceId(
 			@PathVariable("deviceId") long deviceId,
-			@RequestParam(name="onlyCrashes", defaultValue="false") boolean onlyShowCrashes) {
+			@RequestParam(name="onlyCrashes", defaultValue="false") boolean onlyShowCrashes) throws DontWorryMomException, UnauthorizedAccessException {
+		// check the user has access to the requested resource
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		this.resourceAccessChecker.checkAccessToDevice(principal, deviceId);
 		
 		List<? extends Location> results;
 		if(onlyShowCrashes) {

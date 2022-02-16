@@ -1,8 +1,8 @@
--- create three users
-insert into users(username) values ('automation-user');
-insert into users(username) values ('william');
-insert into users(username) values ('mikey');
-insert into users(username) values ('darlena');
+-- create three users with password 'password'
+insert into users(username, encrypted_password) values ('automation-user', '$2a$10$STCXyRNa2M9hIChMsVs7weoSwNbk.piyvHLmsjWGqpnBmWXMVdmA2');
+insert into users(username, encrypted_password) values ('william', '$2a$10$STCXyRNa2M9hIChMsVs7weoSwNbk.piyvHLmsjWGqpnBmWXMVdmA2');
+insert into users(username, encrypted_password) values ('mikey', '$2a$10$STCXyRNa2M9hIChMsVs7weoSwNbk.piyvHLmsjWGqpnBmWXMVdmA2');
+insert into users(username, encrypted_password) values ('darlena', '$2a$10$STCXyRNa2M9hIChMsVs7weoSwNbk.piyvHLmsjWGqpnBmWXMVdmA2');
 
 -- create three devices that belong to automation-user
 insert into device(user_id) values ((select user_id from users where username='automation-user'));
@@ -26,7 +26,6 @@ with new_notif as (
 			(select min(notification_id) from new_notif), 
 			'800-1234-1234'
 		);
-	
 -- create past location data 
 --  irvine lat and long
 --  for automation-user's first device

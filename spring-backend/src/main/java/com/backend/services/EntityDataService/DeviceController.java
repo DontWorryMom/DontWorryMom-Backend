@@ -1,6 +1,5 @@
 package com.backend.services.EntityDataService;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.backend.Models.Device;
