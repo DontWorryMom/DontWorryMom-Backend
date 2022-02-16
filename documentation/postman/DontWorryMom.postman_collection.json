@@ -77,7 +77,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 3,\r\n    \"username\": \"darlena\"\r\n}",
+							"raw": "{\r\n    \"userId\": 2,\r\n    \"username\": \"william\",\r\n    \"password\": \"test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -85,14 +85,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{SPRING_BASE_URL}}/users/userId/3",
+							"raw": "{{SPRING_BASE_URL}}/users/userId/2",
 							"host": [
 								"{{SPRING_BASE_URL}}"
 							],
 							"path": [
 								"users",
 								"userId",
-								"3"
+								"2"
 							]
 						}
 					},
@@ -278,13 +278,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{SPRING_BASE_URL}}/notifications/userId/1",
+							"raw": "{{SPRING_BASE_URL}}/notifications/notificationId/1",
 							"host": [
 								"{{SPRING_BASE_URL}}"
 							],
 							"path": [
 								"notifications",
-								"userId",
+								"notificationId",
 								"1"
 							]
 						}
@@ -651,12 +651,12 @@
 					"urlencoded": [
 						{
 							"key": "username",
-							"value": "test",
+							"value": "{{SPRING_USER_LOGIN}}",
 							"type": "text"
 						},
 						{
 							"key": "password",
-							"value": "password",
+							"value": "{{SPRING_USER_PASSWORD}}",
 							"type": "text"
 						}
 					]

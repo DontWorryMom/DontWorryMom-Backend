@@ -69,6 +69,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.PUT, "/devices/deviceId/*").authenticated()		// only signed in users can update their devices
 				.antMatchers(HttpMethod.DELETE, "/devices/deviceId/*").authenticated()	// only signed in users can delete their devices
 
+				// notifications endpoints
+				.antMatchers(HttpMethod.POST, "/notifications/userId/*").authenticated()			// only signed in users can add a notification
+				.antMatchers(HttpMethod.GET, "/notifications").hasAnyAuthority("admin")				// only admins can see the whole list of notifications
+				.antMatchers(HttpMethod.GET, "/notifications/userId/*").authenticated()				// only signed in users can see their notifications
+				.antMatchers(HttpMethod.GET, "/notifications/notificationId/*").authenticated()		// only signed in users can see their notifications
+
 				// remaining requests (just secure them in case we forgot anything)
 				.anyRequest().permitAll()
 				.and()

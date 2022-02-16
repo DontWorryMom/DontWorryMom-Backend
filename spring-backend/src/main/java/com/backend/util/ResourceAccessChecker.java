@@ -1,7 +1,9 @@
 package com.backend.util;
 
 import com.backend.DataAcquisitionObjects.DeviceDAO;
+import com.backend.DataAcquisitionObjects.NotificationDAO;
 import com.backend.Models.Device;
+import com.backend.Models.Notification;
 import com.backend.Models.User;
 import com.backend.Models.UserDetailsRootUser;
 import com.backend.Models.UserDetailsWrapper;
@@ -14,10 +16,12 @@ import org.springframework.stereotype.Component;
 public class ResourceAccessChecker {
 
 	DeviceDAO deviceDAO;
+	NotificationDAO notificationDAO;
 
 	@Autowired
-	public ResourceAccessChecker(DeviceDAO deviceDAO) {
+	public ResourceAccessChecker(DeviceDAO deviceDAO, NotificationDAO notificationDAO) {
 		this.deviceDAO = deviceDAO;
+		this.notificationDAO = notificationDAO;
 	}
 
 	/*
@@ -81,6 +85,37 @@ public class ResourceAccessChecker {
 			);
 		}
 		checkAccessToDevice(principal, deviceRequested);
+	}
+
+	/*
+	 * 	Checking Access to Notification Resource
+	 */
+
+	public void checkAccessToNotification(Object principal, Notification notificationRequested) throws UnauthorizedAccessException {
+		if (principal instanceof UserDetailsRootUser) {
+			// root user has access to all devices
+			return;
+		}
+		else if (principal instanceof UserDetailsWrapper) {
+			User authenticatedUser = ((UserDetailsWrapper) principal).getUser();
+			if (authenticatedUser.getUserId() != notificationRequested.getUserId()) {
+				throw new UnauthorizedAccessException("Current user ("+authenticatedUser+") cannot access the requested notification resource with notificationId="+notificationRequested.getNotificationId());
+			}
+		}
+		else {
+			throw new UnauthorizedAccessException("Cannot determine what user is requesting the requested resource");
+		}
+	}
+
+	public void checkAccessToNotification(Object principal, long notificationId) throws UnauthorizedAccessException, DontWorryMomException {
+		Notification notificationRequested = notificationDAO.getNotificationById(notificationId);
+		if (notificationRequested == null) {
+			throw new DontWorryMomException(
+				HttpStatus.BAD_REQUEST.value(),
+				"Was unable to find Notification with NotificationId ("+notificationId+")"	
+			);
+		}
+		checkAccessToNotification(principal, notificationRequested);
 	}
 	
 }
