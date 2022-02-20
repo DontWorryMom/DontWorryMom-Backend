@@ -17,6 +17,8 @@ public class Config {
 	public final static String SPRING_ADMIN_USER_NAME = ENVIRONMENT_VARIABLES.get("SPRING_ADMIN_USER_NAME");
 	public final static String SPRING_ADMIN_USER_PASSWORD = ENVIRONMENT_VARIABLES.get("SPRING_ADMIN_USER_PASSWORD");
 
+	public final static String CORS_ALLOWED_ORIGINS = ENVIRONMENT_VARIABLES.get("CORS_ALLOWED_ORIGINS");
+
 	static {
 		printConfig();
 	}
@@ -30,6 +32,7 @@ public class Config {
 		printConfig("accelerometer-crash-threshold", ACCELEROMETER_CRASH_THRESHOLD);
 		printConfig("spring-admin-user-name", SPRING_ADMIN_USER_NAME);
 		printConfig("spring-admin-user-password", SPRING_ADMIN_USER_PASSWORD);
+		printConfig("cors-allowed-origins", CORS_ALLOWED_ORIGINS);
 	}
 
 	public static <T> void printConfig(String varName, T value) {
