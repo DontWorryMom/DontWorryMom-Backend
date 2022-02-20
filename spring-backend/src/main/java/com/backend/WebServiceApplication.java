@@ -25,7 +25,8 @@ public class WebServiceApplication {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH")
-                .allowedOrigins(Config.CORS_ALLOWED_ORIGINS);
+                .allowedOrigins(Config.CORS_ALLOWED_ORIGINS)
+                .allowCredentials(true);
     }
   }
 
