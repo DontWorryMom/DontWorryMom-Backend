@@ -1,5 +1,11 @@
 package com.backend.Configuration;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.backend.services.AuthenticationService.AuthenticationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +17,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -42,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.formLogin()
+				.successHandler(new AppAuthenticationSuccessHandler())
 				.loginProcessingUrl("/login")
 				.and()
 				
@@ -99,5 +108,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf()
 				.disable();
 	}
-	
+
+	public class AppAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
+		protected void handle(HttpServletRequest request, HttpServletResponse response,
+				Authentication authentication) throws IOException, ServletException {
+		}
+	}
+
 }
