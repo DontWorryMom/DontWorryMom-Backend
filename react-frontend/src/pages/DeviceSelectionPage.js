@@ -31,9 +31,12 @@ class DeviceSelectionPage extends React.Component {
         // get a callback when the server responds
         req.addEventListener('load', () => {
           // update the state of the component with the result here
+          console.log(req.responseText);
           const results = JSON.parse(req.responseText).results;
           this.setState({devices: results})
         })
+
+        req.withCredentials=true;
         // open the request with the verb and the url
         req.open('GET', config.SPRING_BACKEND_FULL_URL + `/devices/userId/${id}`)
         // send the request
