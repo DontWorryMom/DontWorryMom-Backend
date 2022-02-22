@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+
+import Navbar from '../components/Navbar';
+
 var config = require("../Config").config;
 
 class DeviceSelectionPage extends React.Component {
@@ -49,7 +52,9 @@ class DeviceSelectionPage extends React.Component {
         const deviceLength = this.state.devices.length;
 
         return (
-            <div>Num of Devices is {deviceLength}
+            <div><Navbar />
+            
+            
             <Box
                 sx={{
                     //add styling here
@@ -58,7 +63,10 @@ class DeviceSelectionPage extends React.Component {
                     alignItems: { xs: 'center'},
                 }}
             >
-                
+                {deviceLength === 1 ?
+                    <p>You currently have {deviceLength} registered device</p> :
+                    <p>You currently have {deviceLength} registered devices</p>
+                }
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={6}>
                         {this.state.devices.map((device) => 

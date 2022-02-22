@@ -13,10 +13,7 @@ import { Helmet } from "react-helmet";
 import HomePage from './pages/HomePage';
 import UserSelectionPage from './pages/UserSelectionPage';
 import DeviceSelectionPage from './pages/DeviceSelectionPage';
-import DeviceView from './components/DeviceView';
-
-// components
-import Navbar from './components/Navbar';
+import DeviceView from './pages/DeviceViewPage';
 
 function App() {
   return (
@@ -25,8 +22,6 @@ function App() {
       <Helmet>
           <title>Don't Worry Mom</title>
       </Helmet>
-
-      <Navbar />
       
       <Switch>
         <Route exact path='/'> <HomePage /> </Route>

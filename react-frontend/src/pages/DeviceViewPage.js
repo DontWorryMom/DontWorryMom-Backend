@@ -3,11 +3,13 @@ import React from 'react';
 import { withRouter } from "react-router";
 import Box from '@mui/material/Box';
 
-import LocationView from './LocationView';
-import NotificationView from './NotificationView';
-import CrashView from './CrashView';
-var config = require("../Config").config;
+import LocationView from '../components/LocationView';
+import NotificationView from '../components/NotificationView';
+import CrashView from '../components/CrashView';
 
+import Navbar from '../components/Navbar';
+
+var config = require("../Config").config;
 
 class DeviceView extends React.Component {
     constructor(props) {
@@ -50,7 +52,8 @@ class DeviceView extends React.Component {
     render() {
         
         return (
-            <div>This is a device view for device id: {this.state.deviceId}
+            <div><Navbar />
+            This is a device view for device id: {this.state.deviceId}
             <Box
                 sx={{
                     //add styling here

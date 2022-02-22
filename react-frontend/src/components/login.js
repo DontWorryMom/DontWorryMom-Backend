@@ -7,6 +7,10 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+
 var config = require("../Config").config;
 
 class Login extends React.Component {
@@ -16,12 +20,18 @@ class Login extends React.Component {
         this.state = {
             username: null,
             password: null,
+
+            loggedin: false,
             userId: null,
-            redirect: false
+            redirect: false,
+
+            showError: false
+
         }
 
-        this.login = this.login.bind(this)
-        this.checkLogin = this.checkLogin.bind(this)
+        this.login = this.login.bind(this);
+        this.checkLogin = this.checkLogin.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
 
@@ -72,9 +82,10 @@ class Login extends React.Component {
                 // update the state of the component with the result here
                 var userId = JSON.parse(user.responseText).results.userId;
                 console.log(user.status);
-                this.setState({userId: userId})
-                this.setState({redirect: true})
-                console.log(`devices/user/${userId}`)
+                this.setState({userId: userId});
+                this.setState({redirect: true});
+                this.setState({loggedin: true});
+                console.log(`devices/user/${userId}`);
 
 
               });
@@ -82,6 +93,10 @@ class Login extends React.Component {
             user.send();
             
             //this.props.history.push(`devices/user/${user.userId}`)
+        }
+        else
+        {
+            this.setState({showError: true});
         }
     }
 
@@ -98,7 +113,9 @@ class Login extends React.Component {
         logout.open('POST', config.SPRING_BACKEND_FULL_URL + '/logout')
         logout.setRequestHeader("Content-Type", "application/json");
         // send the request
-        logout.send()
+        logout.send();
+        this.setState({loggedin: false});
+        this.props.rerenderHomePage();
 
     }
 
@@ -137,8 +154,23 @@ class Login extends React.Component {
                     <p></p>
                     <Button onClick={this.logout} variant='outlined' fullWidth>Log Out</Button>
 
-                    <p>{this.state.username}</p>
-                    <p>{this.state.password}</p>
+                    {this.state.showError &&
+                        <div>
+                            <p></p>
+                            <Alert 
+                                severity='error'
+                                action=
+                                {
+                                    <IconButton onClick={() => { this.setState({showError: false}); }}>
+                                        <CloseIcon/>
+                                    </IconButton>
+                                }
+                            >
+                                Login Unsuccessful. Please try again.
+                            </Alert>
+                        </div>
+                        
+                    }
 
                 </Paper>
             </form>
