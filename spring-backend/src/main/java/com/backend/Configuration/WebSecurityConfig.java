@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// locations endpoints
 				.antMatchers(HttpMethod.POST, "/locations/deviceId/*").permitAll()		// devices cannot sign in to send data
 				.antMatchers(HttpMethod.GET, "/locations").hasAnyAuthority("admin")		// only admins can see the whole list of locations
-				.antMatchers(HttpMethod.GET, "/deviceId/*").authenticated()				// only signed in users can see their locations
+				.antMatchers(HttpMethod.GET, "/locations/deviceId/*").authenticated()	// only signed in users can see their locations
 
 				// CrashDetectedNotifications endpoints
 				.antMatchers(HttpMethod.GET, "/crashDetectedNotification").hasAnyAuthority("admin")	// only admins can see the whole list of crash detected notifications
