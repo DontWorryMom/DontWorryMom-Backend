@@ -36,6 +36,9 @@ class DeviceView extends React.Component {
           this.setState({locationList: locations})
           this.setState({dataReady: true});
         })
+
+        // added because of login security
+        locs.withCredentials=true;
         
         // open the request with the verb and the url
         locs.open('GET', config.SPRING_BACKEND_FULL_URL + `/locations/deviceId/${deviceId}`)        

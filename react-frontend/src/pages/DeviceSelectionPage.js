@@ -36,7 +36,9 @@ class DeviceSelectionPage extends React.Component {
           this.setState({devices: results})
         })
 
+        // added because of login security
         req.withCredentials=true;
+
         // open the request with the verb and the url
         req.open('GET', config.SPRING_BACKEND_FULL_URL + `/devices/userId/${id}`)
         // send the request

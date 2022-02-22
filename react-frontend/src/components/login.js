@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Redirect } from "react-router-dom";
+
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
@@ -13,11 +15,15 @@ class Login extends React.Component {
         super(props);
         this.state = {
             username: null,
-            password: null
+            password: null,
+            userId: null,
+            redirect: false
         }
 
         this.login = this.login.bind(this)
+        this.checkLogin = this.checkLogin.bind(this)
     }
+
 
     handleUserChange = event => {
         this.setState({username: event.target.value.toString()})
@@ -28,19 +34,20 @@ class Login extends React.Component {
 
     login() {
 
-        console.log(this.state.username)
-
         // create a new XMLHttpRequest
         var login = new XMLHttpRequest();
 
         //var payload = "username="+this.state.username+"&password="+this.state.password;
         var payload = "username="+escape(encodeURI(this.state.username))+"&password="+escape(encodeURI(this.state.password));
 
+        // added because of login security
         login.withCredentials=true;
 
         login.addEventListener('load', () => {
             // update the state of the component with the result here
             console.log(login.responseText);
+            console.log(login.status);
+            this.checkLogin(login.responseText, login.status)
           })
 
         // open the request with the verb and the url
@@ -49,7 +56,33 @@ class Login extends React.Component {
         // send the request
         login.send(payload)
 
-        console.log("Plz work")
+        console.log("Plz work");
+
+        
+    }
+
+    // helper function to verify a login
+    checkLogin(response, status) {
+        if (response === '' && status === 200)
+        {
+            console.log('in here');
+            var user = new XMLHttpRequest();
+            user.withCredentials=true;
+            user.addEventListener('load', () => {
+                // update the state of the component with the result here
+                var userId = JSON.parse(user.responseText).results.userId;
+                console.log(user.status);
+                this.setState({userId: userId})
+                this.setState({redirect: true})
+                console.log(`devices/user/${userId}`)
+
+
+              });
+            user.open('GET', config.SPRING_BACKEND_FULL_URL + '/users/currentUser');
+            user.send();
+            
+            //this.props.history.push(`devices/user/${user.userId}`)
+        }
     }
 
     logout() {
@@ -57,6 +90,9 @@ class Login extends React.Component {
 
         // create a new XMLHttpRequest
         var logout = new XMLHttpRequest()
+
+        // added because of login security
+        logout.withCredentials=true;
 
         // open the request with the verb and the url
         logout.open('POST', config.SPRING_BACKEND_FULL_URL + '/logout')
@@ -67,6 +103,12 @@ class Login extends React.Component {
     }
 
     render() {
+
+        if (this.state.redirect)
+        {
+            return(<Redirect to={`devices/user/${this.state.userId}`}/>)
+        }
+
         return (
             <form>
                 <Paper elevation='10' 

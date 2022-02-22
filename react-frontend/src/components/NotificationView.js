@@ -51,6 +51,10 @@ class NotificationView extends React.Component {
           const notifications = JSON.parse(notifs.responseText).results;
           this.setState({notificationList: notifications})
         })
+
+        // added because of login security
+        notifs.withCredentials=true;
+
         // open the request with the verb and the url
         notifs.open('GET', config.SPRING_BACKEND_FULL_URL + `/notifications/userId/${this.props.userId}`)
         // send the request
@@ -99,6 +103,9 @@ class NotificationView extends React.Component {
 
         // create a new XMLHttpRequest
         var notif = new XMLHttpRequest()
+
+        // added because of login security
+        notif.withCredentials=true;
 
         // open the request with the verb and the url
         notif.open('POST', config.SPRING_BACKEND_FULL_URL + `/notifications/userId/${this.props.userId}`)
