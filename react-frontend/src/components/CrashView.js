@@ -20,6 +20,7 @@ class CrashView extends React.Component {
 
     get_data() {
         var crashes = new XMLHttpRequest()
+        crashes.withCredentials = true;
         crashes.addEventListener('load', () => {
             // update the state of the component with the result here
             console.log(crashes.responseText);
