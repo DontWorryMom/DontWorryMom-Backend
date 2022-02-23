@@ -13,7 +13,7 @@ class LocationView extends React.Component {
             lat: null,
             long: null,
             initialized: false,
-            renderMap: false
+            renderMap: true
           }
         
         this.initialize_state = this.initialize_state.bind(this);
