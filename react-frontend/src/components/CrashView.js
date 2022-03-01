@@ -2,6 +2,9 @@ import React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
+
 var config = require("../Config").config;
 
 class CrashView extends React.Component {
@@ -42,17 +45,52 @@ class CrashView extends React.Component {
     }
 
     render() {
-        if (this.state.crashList != null) {
+        if (this.state.crashList != null && this.state.crashList.length > 0) {
             return(
-                <div>CrashView Rendered
+                
+                <Box sx={{
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                    
+                    }}
+                >
+                    <Typography
+                    variant="h6"
+                    component="div"
+                    align='center'
+                    sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                    > 
+                        <Box sx={{textAlign:'right'}}>Crash History</Box>
+                    </Typography>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                             {this.state.crashList.map(this.print_crash)}
                     </List>
-                </div>
+                </Box>
             )
         }
         else {
-            return ( <div>There are no crashes to list </div> )
+            return (
+                <Box sx={{
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                    
+                    }}
+                >
+                    <Typography
+                    variant="h6"
+                    component="div"
+                    align='center'
+                    sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                    > 
+                        <Box sx={{textAlign:'right'}}>Crash History</Box>
+                    </Typography>
+                    <p>There are currently no recorded crashes</p>
+                </Box>
+             )
         }
     }
 }

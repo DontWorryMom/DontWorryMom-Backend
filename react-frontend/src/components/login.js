@@ -129,7 +129,7 @@ class Login extends React.Component {
         return (
             <form>
                 <Paper elevation='10' 
-                    sx={{ padding:10, height:'50vh', width:400, margin:'5px auto' }}>
+                    sx={{ padding:10, height:'50vh', width:400, margin:'10px auto' }}>
                     <Grid align='center'>
                         <p>Please Log In Below</p>
                     </Grid>

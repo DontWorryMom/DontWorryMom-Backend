@@ -2,6 +2,7 @@
 import React from 'react';
 import { withRouter } from "react-router";
 import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
 
 import LocationView from '../components/LocationView';
 import NotificationView from '../components/NotificationView';
@@ -53,7 +54,24 @@ class DeviceView extends React.Component {
         
         return (
             <div><Navbar />
-            This is a device view for device id: {this.state.deviceId}
+            <Box sx={{
+                //add styling here
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: { xs: 'center'},
+                
+                }}
+            >
+                <Typography
+                    variant="h4"
+                    component="div"
+                    align='center'
+                    sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                    > 
+                        <Box sx={{textAlign:'right'}}>Device {this.state.deviceId} Information</Box>
+                    </Typography>
+            </Box>
+            
             <Box
                 sx={{
                     //add styling here

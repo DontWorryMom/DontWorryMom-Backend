@@ -2,6 +2,8 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
+
 var config = require("../Config").config;
 
 class LocationView extends React.Component {
@@ -65,7 +67,17 @@ class LocationView extends React.Component {
         }
     }
 
+    convert_time(time) {
+        const date = new Date(time);
+        //console.log(typeof date);
+        //console.log(typeof time);
+        //console.log(date.toDateString());
+        //console.log(date.toTimeString());
+        return date;
+    }
+
     print_location() {
+        const converted_date = this.convert_time(this.state.time);
         return (
             <Box sx={{
                 //add styling here
@@ -74,10 +86,10 @@ class LocationView extends React.Component {
                 alignItems: { xs: 'center'},
             }}
             >
-                <p>{this.index}</p>
-                <p>{this.state.time}</p>
-                <p>{this.state.lat}</p>
-                <p>{this.state.long}</p>
+                <p>Date: {converted_date.toDateString()}</p>
+                <p>Time: {converted_date.toTimeString()}</p>
+                <p>Latitude: {this.state.lat}</p>
+                <p>Longitude: {this.state.long}</p>
             </Box>
         )
     }
@@ -95,44 +107,79 @@ class LocationView extends React.Component {
             return marker;
         };
 
-        return (
-            <Box sx={{
-                //add styling here
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: { xs: 'center'},
-                
-                }}
-            >
-                {this.print_location()}
-                <div>
-                <Button onClick={this.get_prev_loc} variant="outlined" color="primary" >
-					Show Previous Location
-				</Button>
-				<Button onClick={this.get_next_loc} variant="outlined" color="primary" >
-					Show Next Location
-				</Button>
-                </div>
-
-                <div style={{height: '50vh', width: '100%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
-                { this.state.renderMap &&
-                <GoogleMapReact
-                    bootstrapURLKeys= {{key: config.GOOGLE_MAPS_API_KEY}}
-                    defaultCenter={coords}
-                    center={coords}
-                    defaultZoom={14}
-                    margin={[50,50,50,50]}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+        if (this.props.locations.length > 0)
+        {
+            return (
+                <Box sx={{
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                    
+                    }}
                 >
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        align='center'
+                        sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                    > 
+                        <Box sx={{textAlign:'right'}}>Locations</Box>
+                    </Typography>
+                    {this.print_location()}
+                    <div>
+                    <Button onClick={this.get_prev_loc} variant="outlined" color="primary" >
+                        Show Previous Location
+                    </Button>
+                    <Button onClick={this.get_next_loc} variant="outlined" color="primary" >
+                        Show Next Location
+                    </Button>
+                    </div>
+    
+                    <div style={{height: '50vh', width: '100%', display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "black"}}>
+                    { this.state.renderMap &&
+                    <GoogleMapReact
+                        bootstrapURLKeys= {{key: config.GOOGLE_MAPS_API_KEY}}
+                        defaultCenter={coords}
+                        center={coords}
+                        defaultZoom={14}
+                        margin={[50,50,50,50]}
+                        yesIWantToUseGoogleMapApiInternals
+                        onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
+                    >
+    
+                    </GoogleMapReact>
+                    }
+                    </div>
+                    
+    
+                </Box>
+            );
+        }
+        else {
+            return(
+                <Box sx={{
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                    
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        align='center'
+                        sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                    > 
+                        <Box sx={{textAlign:'right'}}>Locations</Box>
+                    </Typography>
+                    <p>There are currently no recorded locations</p>
+                </Box>
+            )
 
-                </GoogleMapReact>
-                }
-                </div>
-                
-
-            </Box>
-        );
+        }
+        
     }
 }
 

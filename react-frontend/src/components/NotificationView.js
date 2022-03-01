@@ -16,6 +16,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
+import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
+
 var config = require("../Config").config;
 
 class NotificationView extends React.Component {
@@ -156,7 +159,24 @@ class NotificationView extends React.Component {
         if (this.state.notificationList != null)
         {
             return (
-                <div>Active Notifications
+                <Box sx={{
+                    m:2,
+                    //add styling here
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: { xs: 'center'},
+                }}>
+
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        align='center'
+                        sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+                    >
+                        
+                        <Box sx={{textAlign:'right'}}>Active Notifications</Box>
+                    </Typography>
+    
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         {this.state.notificationList.map(this.print_notif)}
                     </List>
@@ -178,6 +198,8 @@ class NotificationView extends React.Component {
                         <MenuItem onClick={this.closeMenu}>Edit</MenuItem>
                         <MenuItem onClick={this.closeMenu}>Remove</MenuItem>
                     </Menu>
+
+                    <p></p>
 
                     <form>
                         <FormControl >
@@ -208,7 +230,7 @@ class NotificationView extends React.Component {
                         </FormControl>
                     </form>
 
-                </div>
+                </Box>
                 
             )
         }
